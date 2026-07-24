@@ -53,7 +53,7 @@ export const PERSONAL_BIO = {
   name: "Gursevak Singh Aulakh",
   shortName: "Gursevak Singh",
   title: "AI Systems Engineer & Innovation Researcher",
-  subtitle: "AI Systems Engineer, Robotics Developer, AI Innovation Researcher & Computer Engineering Lecturer",
+  subtitle: "AI Systems Engineer, Robotics Developer & AI Innovation Researcher",
   tagline: "I design and ship complete AI systems — from silicon microcontrollers to user interfaces.",
   mission: "Engineered to solve real-world enterprise & civic challenges by unifying on-device edge AI, biometrics, robotics firmware, and full-stack cloud platforms.",
   email: "singhgursevak872@gmail.com",
@@ -114,7 +114,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
       { label: "Voice Query Latency", value: "< 1.2s" },
       { label: "Audio Sampling", value: "16kHz I2S" },
       { label: "OLED Display FPS", value: "60 FPS Eye Sync" },
-      { label: "Active Campus Deployment", value: "GGSP Nashik" }
+      { label: "Active Campus Deployment", value: "Institutional Campus" }
     ],
     githubUrl: "https://github.com/Gursevaksingh84/EVA-AI-Powered-Institutional-Assistant-System",
     status: "Deployed Cyber-Physical System",
@@ -360,7 +360,7 @@ export const RESEARCH_PATENTS: ResearchItem[] = [
 export const TEACHING_DATA: TeachingExperience[] = [
   {
     role: "Workshop Facilitator — AI Tools for Engineers",
-    organization: "Dept. of Computer Engineering, GGSP Nashik",
+    organization: "Dept. of Computer Engineering",
     period: "June 2026",
     description: "Designed and delivered an intensive technical workshop for engineering students focusing on practical AI integration, prompt engineering, agentic workflows, and micro-controller Edge AI.",
     highlights: [
@@ -371,7 +371,7 @@ export const TEACHING_DATA: TeachingExperience[] = [
   },
   {
     role: "Computer Engineering Academic Mentorship",
-    organization: "GGSP Engineering Department",
+    organization: "Computer Engineering Dept",
     period: "2024 — Present",
     description: "Mentoring student development teams in full-stack web engineering, hardware robotics integration, and competitive hackathon execution.",
     highlights: [
@@ -398,7 +398,7 @@ export const WORK_TIMELINE = [
   {
     year: "2026",
     title: "AI Tools Workshop Facilitator",
-    role: "Lecturer / Facilitator — GGSP Nashik",
+    role: "Facilitator & Mentor",
     description: "Conducted hands-on technical training for computer engineering students on Edge AI, full-stack development, and agentic tools."
   },
   {

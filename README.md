@@ -19,9 +19,7 @@
 
 ## 📌 Overview
 
-This repository houses the official AI Engineering Portfolio Studio for **Gursevak Singh Aulakh** — AI Systems Engineer, Robotics Developer, Published Indian Patent Co-Inventor, and Computer Engineering Lecturer at GGSP Nashik.
-
-Engineered using **Next.js 16 (Turbopack)**, **TypeScript**, **Tailwind CSS v4**, and **Framer Motion**, the application features a minimalist soft white editorial aesthetic, on-device AI system map visualizers, custom command palette overlays (`Cmd+K`), interactive terminal AI query assistants, and comprehensive project media galleries.
+This repository houses the official AI Engineering Portfolio Studio for **Gursevak Singh Aulakh** — AI Systems Engineer, Robotics Developer, and Published Indian Patent Co-Inventor.
 
 ---
 
@@ -29,7 +27,7 @@ Engineered using **Next.js 16 (Turbopack)**, **TypeScript**, **Tailwind CSS v4**
 
 - **High-Tech Stage Initialization**: Typewriter headline sequence (`GURSEVAK SINGH AULAKH`) with system telemetry indicators.
 - **Header & Command Palette (`Cmd+K`)**: Instant keyboard-driven search modal for navigating projects, patent claims, AI assistant, resume, and contact.
-- **Hero Platform**: Executive branding stage displaying published Indian Patent Application No. 202621047713 A, active lab node status (`IND-WEST-01 (GGSP)`), and live telemetry.
+- **Hero Platform**: Executive branding stage displaying published Indian Patent Application No. 202621047713 A and live telemetry.
 - **Neural Query Interface (`AULAKH_OS V1.4.2`)**: Interactive terminal chat interface ("Ask My AI Assistant") providing sub-second answers regarding EVA robot, Kumbh Bandhu, Granthalaya, and technical stacks.
 - **Selected Works Bento**:
   - **EVA Robot**: 9-step cyber-physical institutional assistant with ESP32-S3, INMP441/MAX98357A I2S audio loops, and Android telephony relay.

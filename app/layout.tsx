@@ -24,7 +24,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Gursevak Singh Aulakh | AI Systems Engineer & Innovation Researcher",
   description: "Official AI Systems Engineering Studio of Gursevak Singh Aulakh. Showcasing Edge AI, Multimodal Biometrics, Published Patent (202621047713 A), Cyber-Physical Robotics, and Systems Architecture.",
-  keywords: ["Gursevak Singh Aulakh", "AI Systems Engineer", "Robotics", "Edge AI", "ArcFace Biometrics", "Kumbh Bandhu", "EVA Robot", "Patent 202621047713 A", "Computer Engineering Lecturer"],
+  keywords: ["Gursevak Singh Aulakh", "AI Systems Engineer", "Robotics", "Edge AI", "ArcFace Biometrics", "Kumbh Bandhu", "EVA Robot", "Patent 202621047713 A", "Systems Architecture"],
   authors: [{ name: "Gursevak Singh Aulakh" }],
   openGraph: {
     title: "Gursevak Singh Aulakh | AI Systems Engineer & Innovation Researcher",

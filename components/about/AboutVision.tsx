@@ -89,7 +89,7 @@ export default function AboutVision({
       return "Granthalaya is a digital humanities scripture reader featuring a Quad-Layer Exegesis Engine (Original Gurmukhi, Padh Arth, Teeka, Steek) + SoundCloud millisecond audio recitation timestamp auto-scrolling.";
     }
 
-    return `Gursevak Singh Aulakh specializes in Edge AI, Multimodal Biometrics (Published Patent App 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship at GGSP Nashik. Feel free to ask about EVA, Kumbh Bandhu, or Granthalaya!`;
+    return `Gursevak Singh Aulakh specializes in Edge AI, Multimodal Biometrics (Published Patent App 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship. Feel free to ask about EVA, Kumbh Bandhu, or Granthalaya!`;
   };
 
   const samplePrompts = [

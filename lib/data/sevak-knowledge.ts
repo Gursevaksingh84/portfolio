@@ -2,7 +2,7 @@ export const SEVAK_KNOWLEDGE_BASE = {
   engineer: {
     name: "Gursevak Singh Aulakh",
     title: "AI Systems Engineer & Innovation Researcher",
-    college: "Dept. of Computer Engineering, GGSP Nashik",
+    college: "Dept. of Computer Engineering",
     email: "singhgursevak872@gmail.com",
     github: "https://github.com/Gursevaksingh84",
     linkedin: "https://linkedin.com/in/gursevak-singh-aulakh",

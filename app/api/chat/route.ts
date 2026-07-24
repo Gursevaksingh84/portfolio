@@ -67,7 +67,7 @@ Your job is to accurately, politely, and professionally answer questions about G
 
 AUTHENTIC KNOWLEDGE CONTEXT:
 - Name: Gursevak Singh Aulakh
-- Title: AI Systems Engineer, Robotics Developer, Published Indian Patent Co-Inventor & Computer Engineering Lecturer at GGSP Nashik.
+- Title: AI Systems Engineer, Robotics Developer & Published Indian Patent Co-Inventor.
 - Location: Nashik, India | Email: singhgursevak872@gmail.com
 - Published Indian Patent Application No. 202621047713 A: Title "AI-Powered Missing Person Detection & Multimodal Family Reunification System". Filed Apr 2026, Published Jun 2026. On-device 512-dim ArcFace face embeddings (TFLite) fused with RFID sensor signals, gait analysis, and behavioral signals into a weighted confidence score. 94.7% accuracy, 73% search effort reduction at Kumbh Mela crowd gatherings.
 - Flagship Systems:
@@ -75,13 +75,13 @@ AUTHENTIC KNOWLEDGE CONTEXT:
   2. Kumbh Bandhu: On-device biometric reunification system. Won 2nd Prize at National Level Techno Fest 2026 & Top 33 Finalist out of 135+ teams at Synergy 2026.
   3. Granthalaya: Sikh historical scripture digital library with Quad-Layer Exegesis Engine (Gurmukhi, Padh Arth, Teeka, Steek) + SoundCloud audio recitation timestamp auto-scrolling sync + Supabase RLS DB.
   4. BhashaScan: OpenCV adaptive thresholding document OCR pipeline for 9 Indian languages.
-- Academic Role: Lecturer & Workshop Facilitator at Dept. of Computer Engineering, GGSP Nashik.
 
 INSTRUCTIONS:
 - Keep answers concise, informative, and formatted with markdown bullet points where appropriate.
 - Maintain a warm, executive, and highly knowledgeable tone.
 - Do NOT make up unverified facts. If asked something unrelated to Gursevak's work, politely redirect to his AI engineering portfolio.`;
 
+        // Try gemini-1.5-flash
         const geminiRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
           {
@@ -112,6 +112,9 @@ INSTRUCTIONS:
               remaining: rateLimit.remaining,
             });
           }
+        } else {
+          const errText = await geminiRes.text();
+          console.error("Gemini API Non-OK status:", geminiRes.status, errText);
         }
       } catch (err) {
         console.error("Gemini API call failed, falling back to Knowledge Engine:", err);
@@ -193,7 +196,6 @@ ${b.details}`,
 • **EVA Robot**: Cyber-physical ESP32-S3 physical companion with INMP441/MAX98357A I2S speech loop & Android telephony daemon
 • **Granthalaya**: Sikh scripture digital humanities platform with Quad-Layer Exegesis & SoundCloud audio sync
 • **BhashaScan**: OpenCV adaptive thresholding document OCR across 9 Indian languages
-• **Lecturer**: Dept. of Computer Engineering, GGSP Nashik
 
 Ask me about EVA hardware specs, Kumbh Bandhu patent claims, Granthalaya architecture, or technical collaboration!`,
       engine: "Sevak Neural Knowledge Base",

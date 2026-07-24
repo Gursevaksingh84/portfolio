@@ -13,7 +13,7 @@ export default function Footer() {
               Engineering the <span className="text-[#0051d5] italic">Next</span> Intelligence.
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed font-sans">
-              Specializing in Edge AI, Multimodal Biometrics (Published Patent App No. 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship at GGSP Nashik.
+              Specializing in Edge AI, Multimodal Biometrics (Published Patent App No. 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship.
             </p>
           </div>
 
