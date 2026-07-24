@@ -88,19 +88,13 @@ export default function HeroPlatform({
             </div>
 
             {/* Active Lab Node & Status */}
-            <div className="flex items-center gap-8 font-mono text-xs border-t border-slate-200 pt-4">
-              <div>
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">ACTIVE LAB NODE</span>
-                <span className="font-bold text-slate-900">IND-WEST-01 (GGSP)</span>
+            <div className="flex items-center justify-between font-mono text-xs border-t border-slate-200 pt-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-slate-500 font-medium">SYSTEM STATUS:</span>
+                <span className="font-bold text-slate-900">ONLINE & OPERATIONAL</span>
               </div>
-              <div className="h-6 w-px bg-slate-200" />
-              <div>
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">SYSTEM STATUS</span>
-                <div className="flex items-center gap-1.5 font-bold text-slate-900">
-                  <span className="w-2 h-2 bg-[#0051d5] rounded-full animate-pulse" />
-                  <span>ONLINE</span>
-                </div>
-              </div>
+              <span className="text-slate-400 font-mono font-medium">LATENCY: 24MS</span>
             </div>
 
           </motion.div>
@@ -127,7 +121,7 @@ export default function HeroPlatform({
               {/* Bottom Label Bar */}
               <div className="mt-3 flex items-center justify-between px-2">
                 <span className="font-mono text-xs text-slate-500 uppercase tracking-wider font-bold">
-                  PRINCIPAL ENGINEER / 01
+                  AI SYSTEMS ENGINEER / 01
                 </span>
                 <div className="flex gap-1.5 items-center">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#0051d5] animate-pulse" />

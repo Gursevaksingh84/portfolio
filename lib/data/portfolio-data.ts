@@ -64,7 +64,7 @@ export const PERSONAL_BIO = {
     { label: "Published Patent", value: "1", detail: "App No: 202621047713 A" },
     { label: "Biometric Accuracy", value: "94.7%", detail: "On-Device Multimodal Fusion" },
     { label: "OCR Languages", value: "9+", detail: "Indian Script Processing" },
-    { label: "Students Mentored", value: "350+", detail: "GGSP Engineering Workshops" },
+    { label: "National Finalist", value: "Top 33", detail: "Synergy 2026 Hackathon" },
   ]
 };
 
@@ -364,7 +364,7 @@ export const TEACHING_DATA: TeachingExperience[] = [
     period: "June 2026",
     description: "Designed and delivered an intensive technical workshop for engineering students focusing on practical AI integration, prompt engineering, agentic workflows, and micro-controller Edge AI.",
     highlights: [
-      "Instructed 350+ engineering students on practical AI engineering",
+      "Instructed computer engineering students on practical AI engineering",
       "Covered hands-on deployment of TensorFlow Lite models on microcontrollers",
       "Guided students in building real-world projects for regional hackathons"
     ]
@@ -399,7 +399,7 @@ export const WORK_TIMELINE = [
     year: "2026",
     title: "AI Tools Workshop Facilitator",
     role: "Lecturer / Facilitator — GGSP Nashik",
-    description: "Conducted hands-on technical training for 350+ computer engineering students on Edge AI, full-stack development, and agentic tools."
+    description: "Conducted hands-on technical training for computer engineering students on Edge AI, full-stack development, and agentic tools."
   },
   {
     year: "2025",

@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Sparkles, Send, Bot, RefreshCw } from "lucide-react";
-import { PERSONAL_BIO, SYSTEM_PRODUCTS, RESEARCH_PATENTS } from "@/lib/data/portfolio-data";
+import { X, Send, RefreshCw, ShieldCheck, Zap } from "lucide-react";
+import { PERSONAL_BIO } from "@/lib/data/portfolio-data";
 
 interface AssistantModalProps {
   isOpen: boolean;
@@ -15,18 +15,21 @@ interface Message {
   sender: "bot" | "user";
   text: string;
   timestamp: string;
+  engine?: string;
 }
 
 export default function AIAssistantModal({ isOpen, onClose, initialQuery }: AssistantModalProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       sender: "bot",
-      text: "Hello! I am Gursevak Singh Aulakh's digital twin assistant. Ask me anything about my published Indian patent (App 202621047713 A), Kumbh Bandhu biometric system, EVA desk robot, computer engineering teaching, or technical architecture.",
-      timestamp: "Just now"
+      text: "Hello! I am Gursevak Singh Aulakh's AI Assistant. Ask me anything about my published Indian patent (App 202621047713 A), EVA institutional desk robot, Kumbh Bandhu biometric engine, Granthalaya scripture reader, or technical background.",
+      timestamp: "Just now",
+      engine: "Sevak Neural Engine"
     }
   ]);
   const [inputQuery, setInputQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [remainingQuota, setRemainingQuota] = useState<number | null>(5);
 
   useEffect(() => {
     if (initialQuery && isOpen) {
@@ -35,15 +38,15 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
   }, [initialQuery, isOpen]);
 
   const promptChips = [
-    "Tell me about EVA robot",
+    "Tell me about EVA robot hardware",
     "Explain Kumbh Bandhu patent",
-    "Why should I collaborate with you?",
-    "Show your research journey"
+    "Granthalaya scripture reader architecture",
+    "Why collaborate with Gursevak?"
   ];
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || inputQuery;
-    if (!query.trim()) return;
+    if (!query.trim() || isTyping) return;
 
     const userMsg: Message = {
       sender: "user",
@@ -55,50 +58,40 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
     if (!textToSend) setInputQuery("");
     setIsTyping(true);
 
-    setTimeout(() => {
-      const botResponseText = generateRAGResponse(query);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query })
+      });
+
+      const data = await res.json();
+
+      if (typeof data.remaining === "number") {
+        setRemainingQuota(data.remaining);
+      }
+
       const botMsg: Message = {
         sender: "bot",
-        text: botResponseText,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        text: data.response || "Gursevak's AI assistant is currently updating. Please try another inquiry.",
+        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        engine: data.engine || "Sevak Neural Knowledge Base"
       };
+
       setMessages((prev) => [...prev, botMsg]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "I am Gursevak Singh Aulakh, an AI Systems Engineer & Published Patent Co-Inventor (App No. 202621047713 A). Feel free to reach out directly at singhgursevak872@gmail.com.",
+          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          engine: "Knowledge Engine Fallback"
+        }
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 600);
-  };
-
-  const generateRAGResponse = (q: string): string => {
-    const lower = q.toLowerCase();
-
-    if (lower.includes("patent") || lower.includes("kumbh") || lower.includes("reunification")) {
-      return `I am a Published Indian Patent Co-Inventor (App No. 202621047713 A, Published June 2026). My patent details a privacy-preserving multimodal biometric reunification engine fusing ArcFace 512-dim face embeddings, RFID sensor telemetry, and gait analysis. This core technology powers Kumbh Bandhu, achieving 94.7% identification accuracy and reducing manual search time by ~73%.`;
     }
-
-    if (lower.includes("eva") || lower.includes("robot") || lower.includes("desk")) {
-      return `EVA is an AI Institutional Desk Robot designed and built by me. It features physical dual-OLED eye animations, a custom I2S audio hardware pipeline, ESP32-S3 firmware, and tool-orchestrated Gemini AI function calling connected to live department timetables and attendance databases.`;
-    }
-
-    if (lower.includes("skill") || lower.includes("work") || lower.includes("tech")) {
-      return `I operate from silicon to interface: 
-- Languages: Python, Kotlin, C++, TypeScript, React, Dart, Java
-- Edge AI & Biometrics: ArcFace 512-dim embeddings, TensorFlow Lite, OpenCV
-- Firmware & IoT: ESP32-S3, I2S audio streaming, RFID readers, WebSockets
-- Cloud & Web: Next.js 15, FastAPI, Supabase, PostgreSQL, Firebase`;
-    }
-
-    if (lower.includes("teaching") || lower.includes("ggsp") || lower.includes("workshop")) {
-      return `I work as a Computer Engineering Lecturer & Workshop Facilitator at GGSP Nashik. In June 2026, I facilitated an intensive 'AI Tools for Engineers' workshop training 350+ students. I also mentored student teams winning 2nd Prize at National Level Techno Fest 2026 and Top 33 at Synergy 2026.`;
-    }
-
-    if (lower.includes("collaborate") || lower.includes("hire") || lower.includes("why")) {
-      return `Why collaborate with Gursevak Singh Aulakh?
-1. Published Patent Holder: Co-inventor on published Indian Patent App 202621047713 A.
-2. Full Spectrum Systems Execution: Builds on-device C++ micro-controller firmware, edge neural networks, and modern Next.js web products.
-3. Proven Track Record: National Techno Fest 2nd Prize winner, Synergy 2026 finalist.
-4. Educator & Research Leader: Mentored 350+ engineering students on real-world AI software.`;
-    }
-
-    return `I am Gursevak Singh Aulakh, an AI Systems Engineer, Published Patent Co-Inventor (App No. 202621047713 A), and Lecturer. My flagship systems include Kumbh Bandhu (biometric reunification), EVA (physical assistant robot), Granthalaya (scripture library), and BhashaScan (9-language OCR). Direct Email: singhgursevak872@gmail.com.`;
   };
 
   if (!isOpen) return null;
@@ -110,38 +103,43 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 50 }}
-          className="w-full max-w-lg h-[90vh] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden"
+          className="w-full max-w-lg h-[90vh] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden font-sans"
         >
           {/* Header */}
-          <div className="p-5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+          <div className="p-5 border-b border-slate-200 bg-[#f9f9f9] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-xs font-mono font-bold text-xs">
+              <div className="w-9 h-9 rounded-xl bg-[#0051d5] text-white flex items-center justify-center shadow-xs font-mono font-bold text-xs">
                 GS
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-sm">
-                  Ask Gursevak AI
+                <h3 className="font-bold text-slate-950 text-sm">
+                  Ask Gursevak AI Assistant
                 </h3>
-                <p className="text-[11px] font-mono text-slate-500">
-                  Digital Twin • Trained on Patent 202621047713 A
+                <p className="text-[11px] font-mono text-slate-500 flex items-center gap-1.5">
+                  <span>Patent App 202621047713 A</span>
+                  {remainingQuota !== null && (
+                    <span className="text-[10px] font-bold text-[#0051d5] bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                      {remainingQuota}/5 per min quota
+                    </span>
+                  )}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200"
+              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Quick Prompt Chips */}
-          <div className="p-3 bg-slate-100/60 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto no-scrollbar">
+          <div className="p-3 bg-slate-100/60 border-b border-slate-200/80 flex items-center gap-2 overflow-x-auto no-scrollbar font-mono text-xs">
             {promptChips.map((chip, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(chip)}
-                className="px-3 py-1.5 rounded-full bg-white hover:bg-blue-50 text-blue-700 text-xs font-medium border border-slate-200 hover:border-blue-200 whitespace-nowrap transition-colors shadow-2xs"
+                className="px-3 py-1.5 rounded-full bg-white hover:bg-blue-50 text-[#0051d5] font-semibold border border-slate-200 hover:border-blue-200 whitespace-nowrap transition-colors shadow-xs cursor-pointer"
               >
                 {chip}
               </button>
@@ -156,7 +154,7 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
                 className={`flex gap-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
               >
                 {msg.sender === "bot" && (
-                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 mt-1 font-mono text-[10px] font-bold">
+                  <div className="w-7 h-7 rounded-lg bg-[#0051d5] text-white flex items-center justify-center shrink-0 mt-1 font-mono text-[10px] font-bold">
                     GS
                   </div>
                 )}
@@ -164,32 +162,33 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
                 <div
                   className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed ${
                     msg.sender === "user"
-                      ? "bg-blue-600 text-white rounded-br-xs"
-                      : "bg-slate-100 text-slate-800 rounded-bl-xs border border-slate-200/80"
+                      ? "bg-[#0051d5] text-white rounded-br-xs font-sans"
+                      : "bg-slate-100 text-slate-900 rounded-bl-xs border border-slate-200/80 font-sans"
                   }`}
                 >
                   <p className="whitespace-pre-line">{msg.text}</p>
-                  <span className="text-[10px] font-mono text-slate-400 block mt-1 text-right">
-                    {msg.timestamp}
-                  </span>
+                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mt-2 pt-1 border-t border-slate-200/40">
+                    <span>{msg.engine || "Gursevak AI"}</span>
+                    <span>{msg.timestamp}</span>
+                  </div>
                 </div>
               </div>
             ))}
 
             {isTyping && (
               <div className="flex gap-3 items-center">
-                <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center shrink-0 font-mono text-[10px] font-bold">
+                <div className="w-7 h-7 rounded-lg bg-[#0051d5] text-white flex items-center justify-center shrink-0 font-mono text-[10px] font-bold">
                   GS
                 </div>
-                <div className="p-3 bg-slate-100 rounded-2xl text-xs text-slate-500 font-mono flex items-center gap-2">
-                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-blue-600" />
-                  <span>Gursevak AI is searching knowledge base...</span>
+                <div className="p-3 bg-slate-100 rounded-2xl text-xs text-slate-600 font-mono flex items-center gap-2">
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#0051d5]" />
+                  <span>Parsing inquiry against neural knowledge base...</span>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Chat Input */}
+          {/* Chat Input Bar */}
           <div className="p-4 border-t border-slate-200 bg-white">
             <form
               onSubmit={(e) => {
@@ -202,13 +201,13 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
                 type="text"
                 value={inputQuery}
                 onChange={(e) => setInputQuery(e.target.value)}
-                placeholder="Ask Gursevak AI about patent, EVA robot, projects..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-900 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-slate-900 border border-slate-200"
+                placeholder="Ask AI Assistant about patent, EVA robot, projects..."
+                className="flex-1 px-4 py-2.5 rounded-xl bg-slate-100 text-slate-900 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0051d5] border border-slate-200"
               />
               <button
                 type="submit"
-                disabled={!inputQuery.trim()}
-                className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white transition-colors"
+                disabled={!inputQuery.trim() || isTyping}
+                className="p-2.5 rounded-xl bg-[#0051d5] hover:bg-[#003ea8] disabled:opacity-50 text-white transition-colors cursor-pointer"
               >
                 <Send className="w-4 h-4" />
               </button>

@@ -9,7 +9,7 @@ export default function TeachingSection() {
 
   const stats = [
     { value: "01", label: "Published Patent", detail: "App 202621047713 A" },
-    { value: "350+", label: "Mentored Students", detail: "GGSP Nashik Workshops" },
+    { value: "Top 33", label: "Synergy 2026", detail: "National Finalist / 135+" },
     { value: "94.7%", label: "Biometric Accuracy", detail: "Multimodal Fusion" },
     { value: "10+", label: "Systems Engineered", detail: "Silicon to Full-Stack" },
   ];

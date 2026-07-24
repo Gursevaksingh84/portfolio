@@ -11,11 +11,18 @@ export default function ContactPortal() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
+
+    // Launch mailto client with pre-filled subject & body
+    const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+    const body = encodeURIComponent(`Hello Gursevak,\n\n${formData.message}\n\nSender Name: ${formData.name}\nSender Email: ${formData.email}`);
+    
+    window.location.href = `mailto:${PERSONAL_BIO.email}?subject=${subject}&body=${body}`;
+
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setFormData({ name: "", email: "", message: "" });
-    }, 4000);
+    }, 6000);
   };
 
   return (
@@ -48,7 +55,7 @@ export default function ContactPortal() {
           </h2>
 
           <p className="text-sm sm:text-base text-blue-100 max-w-xl mb-8 leading-relaxed font-sans">
-            Open for Edge AI implementations, multimodal biometric deployments, robotics prototyping, academic workshops, and consulting.
+            Open for Edge AI implementations, multimodal biometric deployments, robotics prototyping, academic workshops, and technical consulting.
           </p>
 
           <a
@@ -74,8 +81,8 @@ export default function ContactPortal() {
                   <span className="material-symbols-outlined text-xl">mail</span>
                 </div>
                 <div>
-                  <span className="font-mono text-[10px] uppercase text-slate-400 font-bold block">Email</span>
-                  <a href={`mailto:${PERSONAL_BIO.email}`} className="font-bold text-slate-900 hover:text-[#0051d5]">
+                  <span className="font-mono text-[10px] uppercase text-slate-400 font-bold block">Direct Email</span>
+                  <a href={`mailto:${PERSONAL_BIO.email}`} className="font-bold text-slate-900 hover:text-[#0051d5] transition-colors">
                     {PERSONAL_BIO.email}
                   </a>
                 </div>
@@ -97,17 +104,17 @@ export default function ContactPortal() {
                 href={PERSONAL_BIO.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0051d5] text-slate-800 text-xs font-mono font-bold uppercase rounded shadow-sm transition-all"
+                className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0051d5] text-slate-800 text-xs font-mono font-bold uppercase rounded shadow-sm transition-all cursor-pointer"
               >
-                GitHub
+                GitHub Profile ↗
               </a>
               <a
                 href={PERSONAL_BIO.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0051d5] text-slate-800 text-xs font-mono font-bold uppercase rounded shadow-sm transition-all"
+                className="px-4 py-2.5 bg-white border border-slate-200 hover:border-[#0051d5] text-slate-800 text-xs font-mono font-bold uppercase rounded shadow-sm transition-all cursor-pointer"
               >
-                LinkedIn
+                LinkedIn Profile ↗
               </a>
             </div>
           </div>
@@ -119,7 +126,7 @@ export default function ContactPortal() {
               {submitted ? (
                 <div className="p-5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold flex items-center gap-2">
                   <span className="material-symbols-outlined text-emerald-600">check_circle</span>
-                  <span>Thank you! Your message has been dispatched directly to Gursevak Singh Aulakh.</span>
+                  <span>Thank you! Your email app has been opened with your pre-formatted message to Gursevak Singh Aulakh.</span>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4 font-sans text-xs">
@@ -161,9 +168,10 @@ export default function ContactPortal() {
 
                   <button
                     type="submit"
-                    className="w-full py-3.5 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase tracking-wider hover:bg-[#003ea8] transition-all rounded shadow-md cursor-pointer"
+                    className="w-full py-3.5 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase tracking-wider hover:bg-[#003ea8] transition-all rounded shadow-md cursor-pointer flex items-center justify-center gap-2"
                   >
-                    Dispatch Message
+                    <span>Dispatch Inquiry via Email</span>
+                    <span className="material-symbols-outlined text-sm">send</span>
                   </button>
                 </form>
               )}

@@ -48,7 +48,7 @@ export default function Footer() {
             © 2026 Gursevak Singh Aulakh • All Rights Reserved
           </span>
           <span className="text-[#0051d5] uppercase font-bold text-[11px] tracking-wider">
-            System Latency: 24ms • IND-WEST-01 Node
+            System Status: Online & Operational
           </span>
         </div>
 

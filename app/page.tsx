@@ -4,7 +4,6 @@ import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import HeroPlatform from "@/components/hero/HeroPlatform";
 import AboutVision from "@/components/about/AboutVision";
-import AIPlayground from "@/components/about/AIPlayground";
 import ProductsShowcase from "@/components/products/ProductsShowcase";
 import SolutionsGrid from "@/components/solutions/SolutionsGrid";
 import ResearchSection from "@/components/research/ResearchSection";
@@ -76,9 +75,6 @@ export default function Home() {
           onOpenAssistantWithQuery={handleOpenAssistantWithQuery}
           onOpenResume={() => setIsResumeOpen(true)}
         />
-
-        {/* Live Sandboxes (AI Playground) */}
-        <AIPlayground />
 
         {/* Selected Works & Interactive System Map */}
         <ProductsShowcase onSelectProduct={(prod) => setSelectedProduct(prod)} />
