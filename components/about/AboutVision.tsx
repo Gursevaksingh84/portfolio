@@ -21,10 +21,11 @@ export default function AboutVision({
     },
   ]);
   const [inputVal, setInputVal] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = (textToSend || inputVal).trim();
-    if (!query) return;
+    if (!query || isTyping) return;
 
     const newMessages = [
       ...messages,
@@ -32,36 +33,70 @@ export default function AboutVision({
     ];
     setMessages(newMessages);
     if (!textToSend) setInputVal("");
+    setIsTyping(true);
 
-    setTimeout(() => {
-      let reply = "";
-      const lower = query.toLowerCase();
-      if (lower.includes("eva")) {
-        reply =
-          "EVA is Gursevak's 9-step cyber-physical institutional assistant. It features dual SSD1306 OLED eyes, INMP441/MAX98357A I2S audio loops, ESP32-S3 microcontroller, and an Android cellular telephony relay for automated parent contact.";
-      } else if (lower.includes("patent") || lower.includes("kumbh")) {
-        reply =
-          "Gursevak is co-inventor of Published Indian Patent Application No. 202621047713 A. It powers Kumbh Bandhu—a privacy-preserving multimodal reunification system fusing 512-dim ArcFace TFLite facial embeddings with RFID sensor telemetry.";
-      } else if (lower.includes("stack") || lower.includes("tech")) {
-        reply =
-          "Gursevak's core tech stack spans Python (FastAPI, PyTorch, OpenCV, Tesseract), C++ (ESP32-S3), TensorFlow Lite, Kotlin (Android WebSocket Services), React, Next.js, TypeScript, Flutter, and Supabase PostgreSQL.";
-      } else {
-        reply =
-          `Searching Gursevak's knowledge base for: "${query}". Gursevak specializes in Edge AI, Multimodal Biometrics (Patent App 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship at GGSP Nashik.`;
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query }),
+      });
+
+      const data = await res.json();
+      let reply = data.response;
+
+      if (!reply) {
+        reply = getSmartFallback(query);
       }
 
       setMessages((prev) => [
         ...prev,
         { sender: "ai" as const, text: reply, time: "Just Now" },
       ]);
-    }, 600);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai" as const, text: getSmartFallback(query), time: "Just Now" },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  };
+
+  const getSmartFallback = (q: string): string => {
+    const lower = q.toLowerCase();
+
+    if (lower.includes("hi") || lower.includes("hello") || lower.includes("hey") || lower.includes("greetings")) {
+      return "Hello! How can I help you explore Gursevak's AI projects, published Indian patent (App 202621047713 A), EVA robot, or technical background today?";
+    }
+
+    if (lower.includes("skill") || lower.includes("stack") || lower.includes("tech") || lower.includes("languages")) {
+      return `Gursevak's core technical stack spans from silicon microcontrollers to cloud interfaces:
+• Edge AI & Biometrics: ArcFace 512-dim TFLite embeddings, OpenCV, Tesseract OCR (9 Indian languages)
+• Embedded & Hardware: ESP32-S3 Dual-Core 240MHz, C++, INMP441 I2S Mic, MAX98357A 3W Amp, SSD1306 OLED
+• Web & Cloud: Next.js 16, React 19, TypeScript, FastAPI Python, Supabase PostgreSQL, Flutter`;
+    }
+
+    if (lower.includes("eva") || lower.includes("robot") || lower.includes("hardware")) {
+      return "EVA is Gursevak's 9-step cyber-physical institutional assistant. It features dual SSD1306 OLED eyes (60 FPS state sync), INMP441/MAX98357A I2S audio loops, ESP32-S3 microcontroller, and an Android cellular telephony relay for automated parent contact.";
+    }
+
+    if (lower.includes("patent") || lower.includes("kumbh") || lower.includes("reunification")) {
+      return "Gursevak is co-inventor of Published Indian Patent Application No. 202621047713 A. It powers Kumbh Bandhu—a privacy-preserving multimodal reunification system fusing 512-dim ArcFace TFLite facial embeddings with RFID sensor telemetry, achieving 94.7% accuracy at mass crowd gatherings.";
+    }
+
+    if (lower.includes("granthalaya") || lower.includes("scripture") || lower.includes("gurbani")) {
+      return "Granthalaya is a digital humanities scripture reader featuring a Quad-Layer Exegesis Engine (Original Gurmukhi, Padh Arth, Teeka, Steek) + SoundCloud millisecond audio recitation timestamp auto-scrolling.";
+    }
+
+    return `Gursevak Singh Aulakh specializes in Edge AI, Multimodal Biometrics (Published Patent App 202621047713 A), Cyber-Physical Robotics (EVA), and Academic Mentorship at GGSP Nashik. Feel free to ask about EVA, Kumbh Bandhu, or Granthalaya!`;
   };
 
   const samplePrompts = [
     "What is EVA Robot?",
     "Explain Patent 202621047713 A",
+    "Technical Skills & Stack",
     "Tell me about Kumbh Bandhu",
-    "Current tech stack?",
   ];
 
   return (
@@ -119,7 +154,7 @@ export default function AboutVision({
                       }`}
                     >
                       <div
-                        className={`p-3.5 rounded-xl max-w-[85%] leading-relaxed ${
+                        className={`p-3.5 rounded-xl max-w-[85%] leading-relaxed whitespace-pre-line ${
                           msg.sender === "user"
                             ? "bg-[#0051d5] text-white rounded-tr-none font-medium"
                             : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200 font-normal"
@@ -132,6 +167,14 @@ export default function AboutVision({
                       </span>
                     </div>
                   ))}
+
+                  {isTyping && (
+                    <div className="flex flex-col items-start font-mono text-xs text-slate-400">
+                      <div className="p-3 bg-slate-100 rounded-xl animate-pulse">
+                        Sevak AI is thinking...
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-4 bg-slate-50 border-t border-slate-100">
@@ -146,12 +189,13 @@ export default function AboutVision({
                       type="text"
                       value={inputVal}
                       onChange={(e) => setInputVal(e.target.value)}
-                      placeholder="Type your query... e.g. What is EVA?"
+                      placeholder="Type your query... e.g. What is EVA? or skills"
                       className="w-full bg-white border border-slate-200 rounded-lg py-3 pl-4 pr-12 text-sm text-slate-800 focus:ring-2 focus:ring-[#0051d5] focus:outline-none font-sans"
                     />
                     <button
                       type="submit"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0051d5] hover:scale-110 transition-transform cursor-pointer"
+                      disabled={isTyping}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#0051d5] hover:scale-110 transition-transform cursor-pointer disabled:opacity-50"
                     >
                       <span className="material-symbols-outlined">send</span>
                     </button>
