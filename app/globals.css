@@ -79,6 +79,66 @@
   animation: pulse-node 2s infinite;
 }
 
+/* ===== NEW: Hero Shimmer Text ===== */
+@keyframes shimmer-sweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.hero-shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #1e293b 0%,
+    #1e293b 35%,
+    #0051d5 45%,
+    #38bdf8 50%,
+    #0051d5 55%,
+    #1e293b 65%,
+    #1e293b 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-sweep 4s ease-in-out infinite;
+}
+
+/* ===== NEW: Fade in up utility ===== */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+/* ===== NEW: Counter bounce ===== */
+@keyframes counter-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+.animate-counter-bounce {
+  animation: counter-bounce 0.4s ease-out;
+}
+
+/* ===== NEW: Glow border pulse for dark cards ===== */
+@keyframes glow-border {
+  0%, 100% { border-color: rgba(0, 81, 213, 0.3); }
+  50% { border-color: rgba(0, 81, 213, 0.7); }
+}
+
+.glow-border-hover:hover {
+  animation: glow-border 2s ease-in-out infinite;
+}
+
 /* Accordion and expandable details */
 .expandable-content {
   max-height: 0;
@@ -123,4 +183,30 @@
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+/* ===== NEW: 3D Tilt card preserve-3d ===== */
+.tilt-card-wrapper {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.tilt-card-wrapper .tilt-inner {
+  transform: translateZ(20px);
+}
+
+/* ===== NEW: Reduced motion fallback ===== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-shimmer-text {
+    animation: none;
+    -webkit-text-fill-color: #1e293b;
+  }
+  .data-grid-animate,
+  .node-pulse,
+  .animate-counter-bounce {
+    animation: none;
+  }
+  .tilt-card-wrapper {
+    transform: none !important;
+  }
 }

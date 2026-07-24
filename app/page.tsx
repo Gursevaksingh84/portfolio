@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import HeroPlatform from "@/components/hero/HeroPlatform";
+import TechMarquee from "@/components/hero/TechMarquee";
 import AboutVision from "@/components/about/AboutVision";
 import ProductsShowcase from "@/components/products/ProductsShowcase";
 import SolutionsGrid from "@/components/solutions/SolutionsGrid";
@@ -16,7 +18,29 @@ import AIAssistantModal from "@/components/assistant/AIAssistantModal";
 import ResumeModal from "@/components/ui/ResumeModal";
 import FloatingChatWidget from "@/components/assistant/FloatingChatWidget";
 import SystemLoader from "@/components/ui/SystemLoader";
+import CyberneticCursor from "@/components/ui/CyberneticCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 import { SYSTEM_PRODUCTS, SystemProduct } from "@/lib/data/portfolio-data";
+
+const pageRevealContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const pageRevealItem = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
+  },
+};
 
 export default function Home() {
   const [systemLoaded, setSystemLoaded] = useState(false);
@@ -48,84 +72,120 @@ export default function Home() {
   return (
     <main suppressHydrationWarning className="min-h-screen bg-[#f9f9f9] text-slate-900 font-sans selection:bg-blue-100 selection:text-[#0051d5] relative">
       
+      {/* Custom Cybernetic Cursor (desktop only) */}
+      <CyberneticCursor />
+
       {/* High-Tech System Loading Stage Sequence */}
-      {!systemLoaded && (
-        <SystemLoader onComplete={() => setSystemLoaded(true)} />
+      <AnimatePresence>
+        {!systemLoaded && (
+          <SystemLoader onComplete={() => setSystemLoaded(true)} />
+        )}
+      </AnimatePresence>
+
+      {/* Main Website Contents — Staggered Page Reveal */}
+      {systemLoaded && (
+        <motion.div
+          variants={pageRevealContainer}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Navigation Header */}
+          <motion.div variants={pageRevealItem}>
+            <Navbar
+              onOpenAssistant={() => handleOpenAssistantWithQuery()}
+              onOpenResume={() => setIsResumeOpen(true)}
+              onOpenPalette={() => setIsPaletteOpen(true)}
+            />
+          </motion.div>
+
+          {/* Hero Section */}
+          <motion.div variants={pageRevealItem}>
+            <HeroPlatform
+              onOpenAssistantWithQuery={handleOpenAssistantWithQuery}
+              onOpenResume={() => setIsResumeOpen(true)}
+              onSelectProduct={handleSelectProductById}
+            />
+          </motion.div>
+
+          {/* Tech Stack Marquee Divider */}
+          <motion.div variants={pageRevealItem}>
+            <TechMarquee />
+          </motion.div>
+
+          {/* Neural Query Interface */}
+          <motion.div variants={pageRevealItem}>
+            <AboutVision
+              onOpenAssistantWithQuery={handleOpenAssistantWithQuery}
+              onOpenResume={() => setIsResumeOpen(true)}
+            />
+          </motion.div>
+
+          {/* Selected Works & Interactive System Map */}
+          <motion.div variants={pageRevealItem}>
+            <ProductsShowcase onSelectProduct={(prod) => setSelectedProduct(prod)} />
+          </motion.div>
+
+          {/* Capabilities Matrix / Smart Skills Explorer */}
+          <motion.div variants={pageRevealItem}>
+            <SolutionsGrid onSelectProductByName={handleSelectProductByName} />
+          </motion.div>
+
+          {/* Selected Research & Published Patent */}
+          <motion.div variants={pageRevealItem}>
+            <ResearchSection />
+          </motion.div>
+
+          {/* Career Milestones & Mentorship */}
+          <motion.div variants={pageRevealItem}>
+            <TeachingSection />
+          </motion.div>
+
+          {/* Contact CTA Portal */}
+          <motion.div variants={pageRevealItem}>
+            <ContactPortal />
+          </motion.div>
+
+          {/* Minimalist Editorial Footer */}
+          <motion.div variants={pageRevealItem}>
+            <Footer />
+          </motion.div>
+
+          {/* Scroll Progress Indicator & Scroll-to-Top */}
+          <ScrollProgress />
+
+          {/* Command Palette (Cmd+K) */}
+          <CommandPalette
+            isOpen={isPaletteOpen}
+            onClose={() => setIsPaletteOpen(false)}
+            onOpenAssistant={handleOpenAssistantWithQuery}
+            onOpenResume={() => setIsResumeOpen(true)}
+          />
+
+          {/* Floating Assistant Trigger */}
+          <FloatingChatWidget onOpenAssistant={() => handleOpenAssistantWithQuery()} />
+
+          {/* Interactive Modals */}
+          <ProductModal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
+
+          <AIAssistantModal
+            isOpen={isAssistantOpen}
+            initialQuery={assistantInitialQuery}
+            onClose={() => {
+              setIsAssistantOpen(false);
+              setAssistantInitialQuery(undefined);
+            }}
+          />
+
+          <ResumeModal
+            isOpen={isResumeOpen}
+            onClose={() => setIsResumeOpen(false)}
+          />
+
+        </motion.div>
       )}
-
-      {/* Main Website Contents */}
-      <div className={`transition-opacity duration-700 ${systemLoaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        
-        {/* Navigation Header */}
-        <Navbar
-          onOpenAssistant={() => handleOpenAssistantWithQuery()}
-          onOpenResume={() => setIsResumeOpen(true)}
-          onOpenPalette={() => setIsPaletteOpen(true)}
-        />
-
-        {/* Hero Section */}
-        <HeroPlatform
-          onOpenAssistantWithQuery={handleOpenAssistantWithQuery}
-          onOpenResume={() => setIsResumeOpen(true)}
-          onSelectProduct={handleSelectProductById}
-        />
-
-        {/* Neural Query Interface */}
-        <AboutVision
-          onOpenAssistantWithQuery={handleOpenAssistantWithQuery}
-          onOpenResume={() => setIsResumeOpen(true)}
-        />
-
-        {/* Selected Works & Interactive System Map */}
-        <ProductsShowcase onSelectProduct={(prod) => setSelectedProduct(prod)} />
-
-        {/* Capabilities Matrix / Smart Skills Explorer */}
-        <SolutionsGrid onSelectProductByName={handleSelectProductByName} />
-
-        {/* Selected Research & Published Patent */}
-        <ResearchSection />
-
-        {/* Career Milestones & Mentorship */}
-        <TeachingSection />
-
-        {/* Contact CTA Portal */}
-        <ContactPortal />
-
-        {/* Minimalist Editorial Footer */}
-        <Footer />
-
-        {/* Command Palette (Cmd+K) */}
-        <CommandPalette
-          isOpen={isPaletteOpen}
-          onClose={() => setIsPaletteOpen(false)}
-          onOpenAssistant={handleOpenAssistantWithQuery}
-          onOpenResume={() => setIsResumeOpen(true)}
-        />
-
-        {/* Floating Assistant Trigger */}
-        <FloatingChatWidget onOpenAssistant={() => handleOpenAssistantWithQuery()} />
-
-        {/* Interactive Modals */}
-        <ProductModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-
-        <AIAssistantModal
-          isOpen={isAssistantOpen}
-          initialQuery={assistantInitialQuery}
-          onClose={() => {
-            setIsAssistantOpen(false);
-            setAssistantInitialQuery(undefined);
-          }}
-        />
-
-        <ResumeModal
-          isOpen={isResumeOpen}
-          onClose={() => setIsResumeOpen(false)}
-        />
-
-      </div>
 
     </main>
   );

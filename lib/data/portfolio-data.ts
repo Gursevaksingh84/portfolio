@@ -123,11 +123,11 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
   {
     id: "kumbh-bandhu",
     name: "Kumbh Bandhu",
-    subtitle: "Snan to Suraksha — Enterprise Multimodal Reunification System",
+    subtitle: "AI-Powered Missing Person Detection & Reunification System for Mass Gatherings",
     category: "Edge AI & Biometrics",
-    tagline: "Privacy-preserving missing-person detection and biometric family reunification for mass religious gatherings.",
-    problem: "Massive religious events like Kumbh Mela host tens of millions of pilgrims, making traditional lost-and-found posts ineffective and creating long missing-person tracking delays.",
-    solution: "A unified edge biometric fusion framework. On-device facial recognition using ArcFace (512-dim embeddings via TensorFlow Lite) is fused with RFID tag telemetry, gait analysis, and behavioral signals into a mathematically weighted confidence score.",
+    tagline: "Full-stack, AI-powered platform built for Kumbh Mela — using real-time face recognition, CCTV scanning, ESP32/RFID hardware, and WhatsApp notifications to reunite missing persons with their families.",
+    problem: "At Kumbh Mela, over 400 million pilgrims gather — making it the largest human congregation on Earth. Thousands of pilgrims, especially the elderly and children, get separated from their families. Traditional loudspeaker announcements and manual searches are painfully slow, CCTV footage goes unanalyzed, and no central missing-person registry exists.",
+    solution: "A unified full-stack AI ecosystem: InsightFace Buffalo-L CNN for high-accuracy 512-dim face embeddings with cosine similarity matching, CCTV crowd scanning that detects all faces in a frame, an Android mobile app for registration and reporting, a React admin dashboard with live heatmaps and case management, ESP32+RFID wristband zone tracking, and automated WhatsApp alerts via Twilio — all backed by Firebase Realtime Database and deployed on Google Cloud Run.",
     heroImage: "/assets/kumbh%20bandhu/hero.png",
     galleryImages: [
       { url: "/assets/kumbh%20bandhu/hero.png", caption: "Kumbh Bandhu Multimodal System Interface" },
@@ -138,27 +138,34 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
       { url: "/assets/kumbh%20bandhu/Kumbh%20Bandhu%20missing%20person%20systen%20(1).png", caption: "Missing Person Detection Workflow Overview" }
     ],
     architectureNodes: [
-      "Camera Edge Feeds (ESP32/RPi)",
-      "ArcFace 512-dim Embedding Extraction",
-      "RFID Sensor Gateway & Sync",
-      "Multimodal Biometric Fusion Engine",
-      "FastAPI Real-Time Alert Dispatch",
-      "React Command Dashboard & Mobile App"
+      "1. Mobile App (Android/Kotlin) — Pilgrim registration, missing/found person reporting, FCM push alerts",
+      "2. Admin Dashboard (React + Vite + Firebase) — Case management, live crowd heatmaps, volunteer tracking",
+      "3. Alert Display (Hindi UI) — Large-screen missing person alerts for help centers & checkpoints",
+      "4. Hardware Layer (ESP32 + RFID RC522) — Wristband scanning at zone entry/exit, Firebase sync",
+      "5. Firebase Realtime Database & Storage — Unified missing-person registry with photo storage",
+      "6. AI Backend (Flask + Python) — InsightFace Buffalo-L CNN, 512-dim embedding extraction, cosine similarity match engine",
+      "7. CCTV Analysis — Multi-face detection per frame, target matching across crowd images & video clips",
+      "8. WhatsApp Notifications (Twilio) — Automated match alerts with photo, location & contact details",
+      "9. Google Cloud Run (Docker) — Containerized production deployment"
     ],
     keyFeatures: [
-      "512-Dimensional ArcFace Vector Similarity Search on TFLite",
-      "Sub-second on-device offline biometric candidate ranking",
-      "RFID signal fusion for crowded non-line-of-sight identification",
-      "73% reduction in manual verification effort for lost pilgrim centers",
-      "End-to-end encrypted identity metadata pipeline"
+      "InsightFace Buffalo-L model: 512-dim face embeddings with cosine similarity matching and configurable confidence thresholds",
+      "CCTV crowd scanning: detects all faces in a single frame and matches against missing person targets",
+      "Multi-database search across registered users, missing persons, and found persons simultaneously",
+      "Android app with face photo registration, real-time status updates, multi-language support (Hindi, Punjabi, Gujarati, Marathi, Bengali & more), and AI chatbot assistant",
+      "React admin dashboard with live Leaflet crowd heatmap, WhatsApp notification hub, volunteer tracking, and case status pipeline",
+      "ESP32 + RFID RC522 wristband-based pilgrim identification at zone entry/exit with real-time Firebase alerts",
+      "Automated WhatsApp alerts via Twilio with photo, GPS location pin, and contact details on match detection",
+      "Hindi-first alert display board system for mela camps and help center checkpoints"
     ],
-    techStack: ["Kotlin", "TensorFlow Lite", "ArcFace", "ESP32", "RFID", "Firebase", "React", "Python"],
+    techStack: ["Python", "Flask", "InsightFace", "ONNX Runtime", "OpenCV", "Kotlin", "Android", "React", "TypeScript", "Vite", "Firebase", "ESP32", "RFID", "Twilio", "Docker", "Google Cloud Run"],
     metrics: [
       { label: "Identification Accuracy", value: "94.7%" },
       { label: "Search Effort Reduction", value: "~73%" },
       { label: "National Techno Fest 2026", value: "2nd Prize" },
       { label: "Synergy 2026 Hackathon", value: "Top 33 / 135+" }
     ],
+    githubUrl: "https://github.com/Gursevaksingh84/Kumbh-Bandhu",
     patentNo: "202621047713 A",
     status: "Published Patent & Field Validated",
     gradient: "from-blue-600 to-cyan-500"

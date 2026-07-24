@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Layers, Cpu, Server, Database, Volume2, Mic, Bot, Activity, Images, FileText, BookOpen, Music, ShieldCheck } from "lucide-react";
+import { X, ExternalLink, Layers, Cpu, Server, Database, Volume2, Mic, Bot, Activity, Images, FileText, BookOpen, Music, ShieldCheck, Scan, Radio, Smartphone, Monitor, MessageSquare, Cloud, Search, Wifi } from "lucide-react";
 import { GithubIcon } from "@/components/ui/icons";
 import { SystemProduct } from "@/lib/data/portfolio-data";
 import EvaAvatarCycling from "@/components/ui/EvaAvatarCycling";
@@ -13,7 +13,7 @@ interface ProductModalProps {
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "gallery" | "workflow" | "hardware" | "exegesis">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "gallery" | "workflow" | "hardware" | "exegesis" | "kumbh-arch" | "kumbh-hardware">("overview");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,6 +25,19 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
   const isEva = product.id === "eva-robot";
   const isGranthalaya = product.id === "granthalaya";
+  const isKumbh = product.id === "kumbh-bandhu";
+
+  const kumbhArchSteps = [
+    { step: "1", title: "Mobile App", desc: "Android/Kotlin — Pilgrim registration, missing/found person reporting, FCM push alerts", icon: Smartphone },
+    { step: "2", title: "Admin Dashboard", desc: "React + Vite + Firebase — Case management, live crowd heatmaps, volunteer tracking", icon: Monitor },
+    { step: "3", title: "Alert Display", desc: "Hindi UI Board — Large-screen missing person alerts for help centers & checkpoints", icon: Monitor },
+    { step: "4", title: "ESP32 + RFID", desc: "RC522 wristband scanning at zone entry/exit points, real-time Firebase sync", icon: Radio },
+    { step: "5", title: "Firebase", desc: "Realtime Database & Storage — Unified missing-person registry with photo storage", icon: Database },
+    { step: "6", title: "AI Backend", desc: "Flask + InsightFace Buffalo-L CNN — 512-dim face embedding extraction & cosine similarity", icon: Bot },
+    { step: "7", title: "CCTV Analysis", desc: "Multi-face detection per frame, target matching across crowd images & video clips", icon: Scan },
+    { step: "8", title: "WhatsApp Alerts", desc: "Twilio — Automated match alerts with photo, GPS location pin & contact details", icon: MessageSquare },
+    { step: "9", title: "Cloud Run", desc: "Docker containerized production deployment on Google Cloud Platform", icon: Cloud },
+  ];
 
   const workflowSteps = [
     { step: "1", title: "User Voice Input", desc: "Captures Voice Input", icon: Mic },
@@ -147,6 +160,34 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   >
                     <Cpu className="w-3.5 h-3.5" />
                     <span>Hardware Specs</span>
+                  </button>
+                </>
+              )}
+
+              {/* Kumbh Bandhu Specific Tabs */}
+              {isKumbh && (
+                <>
+                  <button
+                    onClick={() => setActiveTab("kumbh-arch")}
+                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                      activeTab === "kumbh-arch"
+                        ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
+                        : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
+                    }`}
+                  >
+                    <Activity className="w-3.5 h-3.5" />
+                    <span>9-Layer Architecture</span>
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("kumbh-hardware")}
+                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                      activeTab === "kumbh-hardware"
+                        ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
+                        : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
+                    }`}
+                  >
+                    <Cpu className="w-3.5 h-3.5" />
+                    <span>Hardware & API</span>
                   </button>
                 </>
               )}
@@ -370,6 +411,138 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
                     <span className="font-mono text-xs font-bold text-[#0051d5] uppercase">Telephony & WhatsApp Relay</span>
                     <p className="text-xs text-slate-700 leading-relaxed font-sans">Background Android WebSocket daemon (`RoboConnectionService`) triggering automated cellular parent phone calls & WhatsApp warnings.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Kumbh Bandhu 9-Layer Architecture Tab */}
+            {activeTab === "kumbh-arch" && isKumbh && (
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-bold text-slate-950">Kumbh Bandhu — 9-Layer System Architecture</h4>
+                  <p className="text-xs text-slate-600 font-mono">End-to-end detection pipeline spanning mobile clients, edge hardware, AI inference, and cloud deployment.</p>
+                </div>
+
+                <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 text-white space-y-6 shadow-2xl">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 bg-cyan-500 rounded-full animate-pulse" />
+                      <span className="font-mono text-sm font-bold text-cyan-400">KUMBH BANDHU SYSTEM PIPELINE</span>
+                    </div>
+                    <span className="font-mono text-[10px] text-slate-400">94.7% IDENTIFICATION ACCURACY</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {kumbhArchSteps.map((ws) => {
+                      const IconComp = ws.icon;
+                      return (
+                        <div key={ws.step} className="p-4 bg-slate-900 border border-slate-800 rounded-lg space-y-2 relative group hover:border-cyan-500 transition-colors">
+                          <div className="flex items-center justify-between">
+                            <span className="w-6 h-6 bg-cyan-600 text-white rounded font-mono text-xs font-bold flex items-center justify-center">
+                              {ws.step}
+                            </span>
+                            <IconComp className="w-4 h-4 text-cyan-400" />
+                          </div>
+                          <h5 className="font-bold text-xs text-white pt-1">{ws.title}</h5>
+                          <p className="text-[11px] text-slate-400 leading-relaxed">{ws.desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Data Flow Summary */}
+                <div className="p-5 bg-cyan-50 border border-cyan-200 rounded-xl space-y-2">
+                  <div className="flex items-center gap-2 text-cyan-700">
+                    <Search className="w-4 h-4" />
+                    <span className="font-mono text-xs font-bold uppercase">Face Matching Pipeline</span>
+                  </div>
+                  <p className="text-xs text-slate-700 leading-relaxed font-sans">
+                    Report filed → InsightFace Buffalo-L extracts 512-dim face embedding → Cosine similarity search across all registered users, missing persons, and found persons → High-confidence matches trigger instant WhatsApp alerts with photo, GPS pin & contact info → Case status moves to &quot;matches_found&quot; → Admin verifies and resolves.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Kumbh Bandhu Hardware & API Tab */}
+            {activeTab === "kumbh-hardware" && isKumbh && (
+              <div className="space-y-6 font-sans">
+                <div>
+                  <h4 className="text-lg font-bold text-slate-950">Hardware Integration & REST API Reference</h4>
+                  <p className="text-xs text-slate-600 font-mono">ESP32 + RFID wristband system and Flask backend API endpoints.</p>
+                </div>
+
+                {/* Hardware Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-[#0051d5]" />
+                      <span className="font-mono text-xs font-bold text-[#0051d5] uppercase">ESP32 Microcontroller</span>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed">ESP32 MCU with Wi-Fi connectivity, running custom Arduino C++ firmware for RFID wristband scanning at zone entry/exit checkpoints.</p>
+                  </div>
+
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Radio className="w-4 h-4 text-[#0051d5]" />
+                      <span className="font-mono text-xs font-bold text-[#0051d5] uppercase">RFID RC522 Reader</span>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed">SPI-connected RFID reader scanning pilgrim wristband tags. SDA→SS(10), SCK→SCK(13), MOSI→MOSI(11), MISO→MISO(12).</p>
+                  </div>
+
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Wifi className="w-4 h-4 text-[#0051d5]" />
+                      <span className="font-mono text-xs font-bold text-[#0051d5] uppercase">Real-Time Firebase Sync</span>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed">Wristband scan data pushed to Firebase Realtime DB via Wi-Fi. Triggers instant alerts if a registered missing person&apos;s tag is scanned.</p>
+                  </div>
+
+                  <div className="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4 text-[#0051d5]" />
+                      <span className="font-mono text-xs font-bold text-[#0051d5] uppercase">WhatsApp Notifications</span>
+                    </div>
+                    <p className="text-xs text-slate-700 leading-relaxed">Twilio WhatsApp Business API sends automated match alerts with photo, location pin, and contact details. Includes conversational bot for status queries.</p>
+                  </div>
+                </div>
+
+                {/* API Reference Section */}
+                <div className="space-y-3">
+                  <h4 className="text-xs font-mono font-bold text-[#0051d5] uppercase tracking-wider flex items-center gap-2">
+                    <Server className="w-4 h-4" />
+                    <span>Flask Backend REST API Endpoints</span>
+                  </h4>
+
+                  <div className="bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-xl">
+                    <div className="p-4 border-b border-slate-800 flex items-center gap-2">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                      <span className="font-mono text-xs text-emerald-400 font-bold">PRODUCTION API — Google Cloud Run</span>
+                    </div>
+                    <div className="divide-y divide-slate-800">
+                      {[
+                        { method: "GET", path: "/health", desc: "Health check" },
+                        { method: "POST", path: "/api/process-missing-person", desc: "Process missing person report + face match" },
+                        { method: "POST", path: "/api/process-found-person", desc: "Process found person report + face match" },
+                        { method: "POST", path: "/api/generate-user-embedding", desc: "Pre-compute face embedding for registered user" },
+                        { method: "POST", path: "/api/search-face", desc: "Manual face search (admin only)" },
+                        { method: "POST", path: "/api/process-cctv-image", desc: "Scan CCTV frame for missing person" },
+                        { method: "POST", path: "/api/process-cctv-video", desc: "Process video clip frame-by-frame" },
+                      ].map((api, idx) => (
+                        <div key={idx} className="px-4 py-3 flex items-center gap-3 font-mono text-xs">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                            api.method === "GET" 
+                              ? "bg-emerald-900/50 text-emerald-400 border border-emerald-800" 
+                              : "bg-blue-900/50 text-blue-400 border border-blue-800"
+                          }`}>
+                            {api.method}
+                          </span>
+                          <span className="text-slate-300 font-semibold">{api.path}</span>
+                          <span className="text-slate-500 ml-auto hidden sm:block">{api.desc}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

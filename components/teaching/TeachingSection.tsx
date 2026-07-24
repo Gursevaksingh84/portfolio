@@ -1,8 +1,108 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { WORK_TIMELINE } from "@/lib/data/portfolio-data";
+
+/* ─── Animated Stat Counter Component ─── */
+function AnimatedStat({
+  value,
+  label,
+  detail,
+  index,
+}: {
+  value: string;
+  label: string;
+  detail: string;
+  index: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [displayVal, setDisplayVal] = useState(value);
+  const [bouncing, setBouncing] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.4 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!hasAnimated) return;
+
+    // Parse numeric part
+    const match = value.match(/^([~]?)(\d+\.?\d*)(.*)/);
+    if (!match) {
+      // Non-numeric (e.g., "Top 33") — just show with bounce
+      setDisplayVal(value);
+      setBouncing(true);
+      setTimeout(() => setBouncing(false), 400);
+      return;
+    }
+
+    const prefix = match[1];
+    const numericEnd = parseFloat(match[2]);
+    const suffix = match[3];
+    const hasDecimal = match[2].includes(".");
+    const duration = 1800;
+    let startTime: number | null = null;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * numericEnd;
+
+      setDisplayVal(
+        `${prefix}${hasDecimal ? current.toFixed(1) : Math.floor(current).toString().padStart(value.length > 2 ? 2 : 1, "0")}${suffix}`
+      );
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setDisplayVal(value);
+        setBouncing(true);
+        setTimeout(() => setBouncing(false), 400);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [hasAnimated, value]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.9 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+      className="border-l-2 border-[#0051d5]/40 pl-5"
+    >
+      <span
+        className={`font-mono text-3xl sm:text-4xl font-extrabold text-[#0051d5] block tabular-nums transition-transform duration-300 ${
+          bouncing ? "animate-counter-bounce" : ""
+        }`}
+      >
+        {displayVal}
+      </span>
+      <span className="font-mono text-xs text-slate-900 font-bold uppercase block mt-1">
+        {label}
+      </span>
+      <span className="font-mono text-[11px] text-slate-400 block mt-0.5">
+        {detail}
+      </span>
+    </motion.div>
+  );
+}
 
 export default function TeachingSection() {
   const [activeItem, setActiveItem] = useState<number>(0);
@@ -19,7 +119,12 @@ export default function TeachingSection() {
       <div className="max-w-[1200px] mx-auto px-5 lg:px-8">
         
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 mb-16"
+        >
           <div>
             <span className="font-mono text-xs text-[#0051d5] uppercase tracking-[0.2em] font-bold block mb-2">
               CAREER LINEAGE & ACADEMIC MENTORSHIP
@@ -34,29 +139,18 @@ export default function TeachingSection() {
               Current Focus: Autonomous Edge AI & Robotics
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Key Achievements Counter Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-8 bg-white border border-slate-200 rounded-xl shadow-lg mb-16">
           {stats.map((st, idx) => (
-            <motion.div
+            <AnimatedStat
               key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.08 }}
-              className="border-l-2 border-[#0051d5]/40 pl-5"
-            >
-              <span className="font-mono text-3xl sm:text-4xl font-extrabold text-[#0051d5] block">
-                {st.value}
-              </span>
-              <span className="font-mono text-xs text-slate-900 font-bold uppercase block mt-1">
-                {st.label}
-              </span>
-              <span className="font-mono text-[11px] text-slate-400 block mt-0.5">
-                {st.detail}
-              </span>
-            </motion.div>
+              value={st.value}
+              label={st.label}
+              detail={st.detail}
+              index={idx}
+            />
           ))}
         </div>
 
@@ -64,7 +158,12 @@ export default function TeachingSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           
           {/* Left Summary Box */}
-          <div className="lg:col-span-4 lg:sticky lg:top-28 h-fit">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-4 lg:sticky lg:top-28 h-fit"
+          >
             <h3 className="text-2xl font-bold text-slate-950 mb-3">
               Engineering Evolution
             </h3>
@@ -79,7 +178,7 @@ export default function TeachingSection() {
                 Specialized in reducing on-device inference latency for edge microcontrollers while maintaining 94.7%+ accuracy in multimodal biometric and autonomous assistant stacks.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Vertical Timeline Items */}
           <div className="lg:col-span-8 relative">
@@ -94,12 +193,12 @@ export default function TeachingSection() {
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: idx * 0.08 }}
+                    transition={{ delay: idx * 0.1 }}
                     onClick={() => setActiveItem(isActive ? -1 : idx)}
                     className="timeline-item relative pl-12 lg:pl-20 group cursor-pointer"
                   >
                     <div
-                      className={`absolute left-[12px] lg:left-[28px] top-2 w-4 h-4 rounded-full ring-4 ring-white z-10 transition-all ${
+                      className={`absolute left-[12px] lg:left-[28px] top-2 w-4 h-4 rounded-full ring-4 ring-white z-10 transition-all duration-300 ${
                         isActive
                           ? "bg-[#0051d5] scale-125 shadow-md shadow-blue-600/30"
                           : "bg-slate-300 group-hover:bg-[#0051d5]"
@@ -111,7 +210,7 @@ export default function TeachingSection() {
                         <h4 className="text-xl font-bold text-slate-950 group-hover:text-[#0051d5] transition-colors">
                           {item.title}
                         </h4>
-                        <span className={`material-symbols-outlined text-[#0051d5] text-lg transition-transform ${isActive ? "rotate-180" : ""}`}>
+                        <span className={`material-symbols-outlined text-[#0051d5] text-lg transition-transform duration-300 ${isActive ? "rotate-180" : ""}`}>
                           expand_more
                         </span>
                       </div>
@@ -128,14 +227,24 @@ export default function TeachingSection() {
                       {item.description}
                     </p>
 
-                    {isActive && (
-                      <div className="mt-4 p-4 bg-white rounded-lg border border-slate-200 shadow-md font-sans text-xs text-slate-700 space-y-2 animate-[fade-in-up_0.2s_ease-out]">
-                        <span className="font-mono text-[10px] text-[#0051d5] uppercase font-bold block">
-                          Key Impact
-                        </span>
-                        <p className="text-slate-800 font-medium">{item.description}</p>
-                      </div>
-                    )}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                          animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                          exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                          transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div className="p-4 bg-white rounded-lg border border-slate-200 shadow-md font-sans text-xs text-slate-700 space-y-2">
+                            <span className="font-mono text-[10px] text-[#0051d5] uppercase font-bold block">
+                              Key Impact
+                            </span>
+                            <p className="text-slate-800 font-medium">{item.description}</p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 );
               })}
