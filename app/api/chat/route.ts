@@ -57,10 +57,10 @@ export async function POST(req: Request) {
     const query = message.trim();
     const queryLower = query.toLowerCase();
 
-    // 4. Try Gemini API if API key is present in environment
+    // 4. Try Gemini API if valid API key is present in environment
     const geminiApiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
 
-    if (geminiApiKey) {
+    if (geminiApiKey && !geminiApiKey.includes("aBcD")) {
       try {
         const systemPrompt = `You are the official AI Assistant and Digital Twin for Gursevak Singh Aulakh.
 Your job is to accurately, politely, and professionally answer questions about Gursevak's work, background, published patent, cyber-physical robotics, and software projects.
@@ -81,7 +81,6 @@ INSTRUCTIONS:
 - Maintain a warm, executive, and highly knowledgeable tone.
 - Do NOT make up unverified facts. If asked something unrelated to Gursevak's work, politely redirect to his AI engineering portfolio.`;
 
-        // Try gemini-1.5-flash
         const geminiRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
           {
@@ -121,7 +120,57 @@ INSTRUCTIONS:
       }
     }
 
-    // 5. High-Precision Knowledge Base Engine (Fallback / Default Instant Response)
+    // 5. High-Precision Knowledge Base Engine (Smart Intent-Based Router)
+    
+    // A. Skills & Tech Stack Queries
+    if (
+      queryLower.includes("skill") ||
+      queryLower.includes("stack") ||
+      queryLower.includes("tech") ||
+      queryLower.includes("language") ||
+      queryLower.includes("framework") ||
+      queryLower.includes("tool") ||
+      queryLower.includes("expertise") ||
+      queryLower.includes("competency") ||
+      queryLower.includes("what can you do")
+    ) {
+      return NextResponse.json({
+        response: `⚡ **Gursevak Singh Aulakh — Technical Competencies & Capabilities**
+
+• **Microcontrollers & Hardware Firmware**: ESP32-S3 Tensilica Dual-Core 240MHz, C++, Arduino IDE, SoftAP Captive Portals, INMP441 I2S MEMS Mics, MAX98357A 3W Amplifiers, SSD1306 OLED HMI Eye Animations
+• **Edge AI & Computer Vision**: ArcFace 512-dim Vector Similarity, TensorFlow Lite, OpenCV Adaptive Denoising/Local Thresholding, Tesseract OCR (9 Indian Script Engines)
+• **Web & Serverless Cloud**: Next.js 16 (App Router + Turbopack), React 19, TypeScript, FastAPI Python microservices, Supabase PostgreSQL, Row-Level Security (RLS), TanStack Query v5
+• **Mobile & System Daemons**: Flutter/Dart, Kotlin, Android WebSocket \`RoboConnectionService\` telephony relays`,
+        engine: "Sevak Neural Knowledge Base",
+        remaining: rateLimit.remaining,
+      });
+    }
+
+    // B. Greetings & Small Talk
+    if (
+      queryLower === "hi" ||
+      queryLower === "hello" ||
+      queryLower === "hey" ||
+      queryLower.includes("greetings") ||
+      queryLower.includes("who are you") ||
+      queryLower.includes("who is gursevak") ||
+      queryLower.includes("intro")
+    ) {
+      return NextResponse.json({
+        response: `👋 Hello! I am **Gursevak Singh Aulakh's** AI Digital Twin.
+
+How can I assist your inquiry today? You can ask me about:
+• 📜 **Published Indian Patent** (App No. 202621047713 A)
+• 🤖 **EVA Robot** (ESP32-S3 physical companion with 9-step audio loop)
+• 📚 **Granthalaya** (Quad-Layer scripture exegesis platform)
+• ⚡ **Technical Skills & Stack**
+• 📧 **Direct Contact & Collaboration**`,
+        engine: "Sevak Neural Knowledge Base",
+        remaining: rateLimit.remaining,
+      });
+    }
+
+    // C. EVA Cyber-Physical Robot Query
     if (queryLower.includes("eva") || queryLower.includes("robot") || queryLower.includes("hardware") || queryLower.includes("esp32")) {
       const eva = SEVAK_KNOWLEDGE_BASE.evaRobot;
       return NextResponse.json({
@@ -147,6 +196,7 @@ GitHub: ${eva.repo}
       });
     }
 
+    // D. Published Indian Patent Query
     if (queryLower.includes("patent") || queryLower.includes("kumbh") || queryLower.includes("reunification")) {
       const p = SEVAK_KNOWLEDGE_BASE.patent;
       return NextResponse.json({
@@ -161,6 +211,7 @@ ${p.details}`,
       });
     }
 
+    // E. Granthalaya Scripture Platform Query
     if (queryLower.includes("granthalaya") || queryLower.includes("scripture") || queryLower.includes("gurbani")) {
       const g = SEVAK_KNOWLEDGE_BASE.granthalaya;
       return NextResponse.json({
@@ -174,6 +225,7 @@ ${g.details}`,
       });
     }
 
+    // F. BhashaScan OCR Query
     if (queryLower.includes("bhashascan") || queryLower.includes("ocr") || queryLower.includes("indian language")) {
       const b = SEVAK_KNOWLEDGE_BASE.bhashascan;
       return NextResponse.json({
@@ -182,6 +234,37 @@ Live App: ${b.liveUrl}
 
 **Capabilities**:
 ${b.details}`,
+        engine: "Sevak Neural Knowledge Base",
+        remaining: rateLimit.remaining,
+      });
+    }
+
+    // G. Projects Overview Query
+    if (queryLower.includes("project") || queryLower.includes("work") || queryLower.includes("portfolio") || queryLower.includes("building")) {
+      return NextResponse.json({
+        response: `🛠️ **Gursevak's Flagship Engineering Systems**
+
+1. **EVA Robot**: Cyber-physical ESP32-S3 physical companion with INMP441/MAX98357A I2S audio loops & Android WebSocket telephony.
+2. **Kumbh Bandhu**: Biometric reunification system using ArcFace 512D embeddings + RFID telemetry (*Published Indian Patent App 202621047713 A*).
+3. **Granthalaya**: Sikh scripture digital library featuring Quad-Layer Exegesis & SoundCloud millisecond audio sync.
+4. **BhashaScan**: OpenCV adaptive thresholding document OCR pipeline for 9 Indian languages.
+5. **Rotary Roaster**: Cross-platform member management suite in Flutter, React, and Supabase.`,
+        engine: "Sevak Neural Knowledge Base",
+        remaining: rateLimit.remaining,
+      });
+    }
+
+    // H. Contact & Collaboration Query
+    if (queryLower.includes("contact") || queryLower.includes("email") || queryLower.includes("hire") || queryLower.includes("collaborate") || queryLower.includes("reach")) {
+      return NextResponse.json({
+        response: `📧 **Direct Contact & Collaboration Channels**
+
+• **Direct Email**: \`singhgursevak872@gmail.com\`
+• **GitHub**: [github.com/Gursevaksingh84](https://github.com/Gursevaksingh84)
+• **LinkedIn**: [linkedin.com/in/gursevak-singh-aulakh](https://linkedin.com/in/gursevak-singh-aulakh)
+• **Location**: Nashik, India
+
+Feel free to reach out for Edge AI implementations, robotics prototyping, or technical inquiries!`,
         engine: "Sevak Neural Knowledge Base",
         remaining: rateLimit.remaining,
       });
@@ -197,7 +280,7 @@ ${b.details}`,
 • **Granthalaya**: Sikh scripture digital humanities platform with Quad-Layer Exegesis & SoundCloud audio sync
 • **BhashaScan**: OpenCV adaptive thresholding document OCR across 9 Indian languages
 
-Ask me about EVA hardware specs, Kumbh Bandhu patent claims, Granthalaya architecture, or technical collaboration!`,
+Ask me about EVA hardware specs, Kumbh Bandhu patent claims, Granthalaya architecture, skills, or technical collaboration!`,
       engine: "Sevak Neural Knowledge Base",
       remaining: rateLimit.remaining,
     });

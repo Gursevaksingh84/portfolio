@@ -39,14 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${spaceMono.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${inter.variable} ${spaceMono.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
       </head>
-      <body className="bg-background text-on-surface antialiased selection:bg-blue-100 selection:text-blue-900">
+      <body suppressHydrationWarning className="bg-background text-on-surface antialiased selection:bg-blue-100 selection:text-blue-900">
         {children}
       </body>
     </html>

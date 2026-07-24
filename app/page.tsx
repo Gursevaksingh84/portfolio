@@ -46,7 +46,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#f9f9f9] text-slate-900 font-sans selection:bg-blue-100 selection:text-[#0051d5] relative">
+    <main suppressHydrationWarning className="min-h-screen bg-[#f9f9f9] text-slate-900 font-sans selection:bg-blue-100 selection:text-[#0051d5] relative">
       
       {/* High-Tech System Loading Stage Sequence */}
       {!systemLoaded && (
