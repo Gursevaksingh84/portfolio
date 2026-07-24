@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import HeroPlatform from "@/components/hero/HeroPlatform";
 import TechMarquee from "@/components/hero/TechMarquee";
@@ -22,7 +22,7 @@ import CyberneticCursor from "@/components/ui/CyberneticCursor";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { SYSTEM_PRODUCTS, SystemProduct } from "@/lib/data/portfolio-data";
 
-const pageRevealContainer = {
+const pageRevealContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -33,7 +33,7 @@ const pageRevealContainer = {
   },
 };
 
-const pageRevealItem = {
+const pageRevealItem: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,

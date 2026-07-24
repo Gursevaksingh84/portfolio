@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import NeuralNetworkCanvas from "@/components/hero/NeuralNetworkCanvas";
 import { useMouseTilt } from "@/lib/hooks/useMouseTilt";
 
@@ -11,7 +11,7 @@ interface HeroProps {
   onSelectProduct: (productId: string) => void;
 }
 
-const staggerContainer = {
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -19,7 +19,7 @@ const staggerContainer = {
   },
 };
 
-const staggerItem = {
+const staggerItem: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
