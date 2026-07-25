@@ -43,7 +43,8 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
     "bhashascan": null,
   });
 
-  const toggleAccordion = (projectId: string, tab: string) => {
+  const toggleAccordion = (projectId: string, tab: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     setOpenAccordions((prev) => ({
       ...prev,
       [projectId]: prev[projectId] === tab ? null : tab,
@@ -91,7 +92,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
-          className="w-full bg-[#f9f9f9] py-12 mb-16 border-b border-slate-200"
+          className="w-full bg-[#f9f9f9] py-12 mb-16 border-b border-slate-200 group"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -106,11 +107,17 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 </span>
               </div>
 
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
+              <h3
+                onClick={() => onSelectProduct(eva)}
+                className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight cursor-pointer hover:text-[#0051d5] transition-colors"
+              >
                 EVA — AI-Powered Institutional Assistant System
               </h3>
 
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans">
+              <p
+                onClick={() => onSelectProduct(eva)}
+                className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans cursor-pointer hover:text-slate-900 transition-colors"
+              >
                 A specialized large language model framework designed to decentralize administrative intelligence.
               </p>
 
@@ -120,7 +127,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* ARCHITECTURE Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(eva.id, "arch")}
+                    onClick={(e) => toggleAccordion(eva.id, "arch", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>ARCHITECTURE</span>
@@ -148,7 +155,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* PIPELINE Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(eva.id, "pipeline")}
+                    onClick={(e) => toggleAccordion(eva.id, "pipeline", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>PIPELINE</span>
@@ -171,7 +178,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* STACK Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(eva.id, "stack")}
+                    onClick={(e) => toggleAccordion(eva.id, "stack", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>STACK</span>
@@ -200,9 +207,10 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
               <div className="pt-2">
                 <button
                   onClick={() => onSelectProduct(eva)}
-                  className="px-6 py-3 bg-[#0051d5] text-white font-mono text-xs uppercase font-bold tracking-wider hover:bg-[#003ea8] transition-all shadow-md cursor-pointer rounded-sm hover:shadow-lg"
+                  className="px-6 py-3 bg-[#0051d5] text-white font-mono text-xs uppercase font-bold tracking-wider hover:bg-[#003ea8] transition-all shadow-md cursor-pointer rounded-sm hover:shadow-lg flex items-center gap-2"
                 >
-                  DEEP DIVE ARCHITECTURE & GALLERY
+                  <span>VIEW FULL DETAILS & GALLERY ({eva.galleryImages.length} IMAGES)</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </button>
               </div>
             </div>
@@ -242,7 +250,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.6 }}
-          className="w-full bg-[#f9f9f9] py-12 mb-16 border-b border-slate-200"
+          className="w-full bg-[#f9f9f9] py-12 mb-16 border-b border-slate-200 group"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -279,11 +287,17 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 </span>
               </div>
 
-              <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
+              <h3
+                onClick={() => onSelectProduct(kumbh)}
+                className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight cursor-pointer hover:text-[#0051d5] transition-colors"
+              >
                 Kumbh Bandhu
               </h3>
 
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans">
+              <p
+                onClick={() => onSelectProduct(kumbh)}
+                className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans cursor-pointer hover:text-slate-900 transition-colors"
+              >
                 Full-stack AI platform using face recognition, CCTV scanning, RFID wristbands & WhatsApp alerts to reunite families at Kumbh Mela.
               </p>
 
@@ -293,7 +307,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* ARCHITECTURE Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(kumbh.id, "arch")}
+                    onClick={(e) => toggleAccordion(kumbh.id, "arch", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>ARCHITECTURE</span>
@@ -317,7 +331,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* PIPELINE Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(kumbh.id, "pipeline")}
+                    onClick={(e) => toggleAccordion(kumbh.id, "pipeline", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>PIPELINE</span>
@@ -340,7 +354,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                 {/* STACK Accordion */}
                 <div className="border-b border-slate-200/80 pb-4">
                   <button
-                    onClick={() => toggleAccordion(kumbh.id, "stack")}
+                    onClick={(e) => toggleAccordion(kumbh.id, "stack", e)}
                     className="w-full flex items-center justify-between font-mono text-xs font-bold text-[#0051d5] uppercase tracking-widest py-1 cursor-pointer hover:opacity-80 transition-opacity"
                   >
                     <span>STACK</span>
@@ -369,9 +383,10 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
               <div className="pt-2">
                 <button
                   onClick={() => onSelectProduct(kumbh)}
-                  className="px-6 py-3 bg-[#0051d5] text-white font-mono text-xs uppercase font-bold tracking-wider hover:bg-[#003ea8] transition-all shadow-md cursor-pointer rounded-sm hover:shadow-lg"
+                  className="px-6 py-3 bg-[#0051d5] text-white font-mono text-xs uppercase font-bold tracking-wider hover:bg-[#003ea8] transition-all shadow-md cursor-pointer rounded-sm hover:shadow-lg flex items-center gap-2"
                 >
-                  PATENT CLAIM DETAILS & GALLERY
+                  <span>VIEW PATENT DETAILS & GALLERY ({kumbh.galleryImages.length} IMAGES)</span>
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
                 </button>
               </div>
             </div>
@@ -382,7 +397,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
         {/* Additional Projects: Granthalaya & BhashaScan */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
           
-          {/* Granthalaya */}
+          {/* Granthalaya (Entire Card Clickable) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -390,7 +405,10 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
             transition={{ delay: 0.1 }}
           >
             <TiltCard className="h-full">
-              <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full">
+              <div
+                onClick={() => onSelectProduct(granthalaya)}
+                className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full cursor-pointer"
+              >
                 <div>
                   <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5 border border-slate-200 relative bg-slate-950">
                     <img
@@ -409,23 +427,27 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-950 mb-2">{granthalaya.name}</h3>
+                  <h3 className="text-2xl font-bold text-slate-950 mb-2 group-hover:text-[#0051d5] transition-colors">{granthalaya.name}</h3>
                   <p className="text-xs text-slate-500 font-mono mb-3">{granthalaya.subtitle}</p>
                   <p className="text-sm text-slate-600 leading-relaxed mb-6 font-sans">{granthalaya.tagline}</p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <button
-                    onClick={() => onSelectProduct(granthalaya)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectProduct(granthalaya);
+                    }}
                     className="px-4 py-2 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase rounded-sm cursor-pointer hover:bg-[#003ea8]"
                   >
-                    Inspect Gallery ({granthalaya.galleryImages.length})
+                    View Project & Gallery ({granthalaya.galleryImages.length})
                   </button>
                   {granthalaya.liveUrl && (
                     <a
                       href={granthalaya.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="text-xs font-mono font-bold text-[#0051d5] hover:underline flex items-center gap-1 uppercase"
                     >
                       <span>Launch Live</span>
@@ -437,7 +459,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
             </TiltCard>
           </motion.div>
 
-          {/* BhashaScan */}
+          {/* BhashaScan (Entire Card Clickable) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -445,7 +467,10 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
             transition={{ delay: 0.2 }}
           >
             <TiltCard className="h-full">
-              <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full">
+              <div
+                onClick={() => onSelectProduct(bhashascan)}
+                className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full cursor-pointer"
+              >
                 <div>
                   <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5 border border-slate-200 relative bg-slate-950">
                     <img
@@ -464,23 +489,27 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-slate-950 mb-2">{bhashascan.name}</h3>
+                  <h3 className="text-2xl font-bold text-slate-950 mb-2 group-hover:text-[#0051d5] transition-colors">{bhashascan.name}</h3>
                   <p className="text-xs text-slate-500 font-mono mb-3">{bhashascan.subtitle}</p>
                   <p className="text-sm text-slate-600 leading-relaxed mb-6 font-sans">{bhashascan.tagline}</p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <button
-                    onClick={() => onSelectProduct(bhashascan)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectProduct(bhashascan);
+                    }}
                     className="px-4 py-2 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase rounded-sm cursor-pointer hover:bg-[#003ea8]"
                   >
-                    Inspect Specs
+                    View Specs & Gallery
                   </button>
                   {bhashascan.liveUrl && (
                     <a
                       href={bhashascan.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="text-xs font-mono font-bold text-[#0051d5] hover:underline flex items-center gap-1 uppercase"
                     >
                       <span>Launch Streamlit</span>
