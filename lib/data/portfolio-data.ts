@@ -11,7 +11,7 @@ export interface SystemProduct {
   techStack: string[];
   metrics: { label: string; value: string }[];
   heroImage: string;
-  galleryImages: { url: string; caption: string }[];
+  galleryImages: { url: string; caption: string; category?: "web" | "mobile" | "methodology" | "hardware" }[];
   liveUrl?: string;
   githubUrl?: string;
   patentNo?: string;
@@ -79,17 +79,17 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     solution: "A complete 9-step cyber-physical AI ecosystem: an animated ESP32-S3 physical companion robot, a FastAPI Python 3.10+ backend with Gemini function calling, an Android cellular telephony daemon for automated parent calls/WhatsApp dispatches, and a React executive dashboard.",
     heroImage: "/assets/eva/hero.png",
     galleryImages: [
-      { url: "/assets/eva/dashboard.png", caption: "Executive Analytics Dashboard" },
-      { url: "/assets/eva/console.png", caption: "EVA Live AI Console Interface" },
-      { url: "/assets/eva/attendance.png", caption: "Attendance Analytics & Defaulters Portal" },
-      { url: "/assets/eva/time_table.png", caption: "Lecture Timetable & Schedule Grid" },
-      { url: "/assets/eva/students.png", caption: "Student Management Datatable" },
-      { url: "/assets/eva/events.png", caption: "Department Events Calendar" },
-      { url: "/assets/eva/eva_hardware_prototype.jpg", caption: "3D-Printed Robotic Companion Hardware Prototype" },
-      { url: "/assets/eva/eva_ai_workflow.png", caption: "9-Step End-to-End System Workflow Diagram" },
-      { url: "/assets/eva/eva_why_comparison.png", caption: "Traditional Process vs EVA AI Assistant" },
-      { url: "/assets/eva/admin.png", caption: "System Administration & Role Settings" },
-      { url: "/assets/eva/login.png", caption: "Institutional Portal Authentication" }
+      { url: "/assets/eva/dashboard.png", caption: "Executive Analytics Dashboard", category: "web" },
+      { url: "/assets/eva/console.png", caption: "EVA Live AI Console Interface", category: "web" },
+      { url: "/assets/eva/attendance.png", caption: "Attendance Analytics & Defaulters Portal", category: "web" },
+      { url: "/assets/eva/time_table.png", caption: "Lecture Timetable & Schedule Grid", category: "web" },
+      { url: "/assets/eva/students.png", caption: "Student Management Datatable", category: "web" },
+      { url: "/assets/eva/events.png", caption: "Department Events Calendar", category: "web" },
+      { url: "/assets/eva/admin.png", caption: "System Administration & Role Settings", category: "web" },
+      { url: "/assets/eva/login.png", caption: "Institutional Portal Authentication", category: "web" },
+      { url: "/assets/eva/eva_hardware_prototype.jpg", caption: "3D-Printed Robotic Companion Hardware Prototype", category: "hardware" },
+      { url: "/assets/eva/eva_ai_workflow.png", caption: "9-Step End-to-End System Workflow Diagram", category: "methodology" },
+      { url: "/assets/eva/eva_why_comparison.png", caption: "Traditional Process vs EVA AI Assistant", category: "methodology" }
     ],
     architectureNodes: [
       "1. User Voice Input (Voice inquiry to physical robot or web console)",
@@ -128,14 +128,32 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     tagline: "Full-stack, AI-powered platform built for Kumbh Mela — using real-time face recognition, CCTV scanning, ESP32/RFID hardware, and WhatsApp notifications to reunite missing persons with their families.",
     problem: "At Kumbh Mela, over 400 million pilgrims gather — making it the largest human congregation on Earth. Thousands of pilgrims, especially the elderly and children, get separated from their families. Traditional loudspeaker announcements and manual searches are painfully slow, CCTV footage goes unanalyzed, and no central missing-person registry exists.",
     solution: "A unified full-stack AI ecosystem: InsightFace Buffalo-L CNN for high-accuracy 512-dim face embeddings with cosine similarity matching, CCTV crowd scanning that detects all faces in a frame, an Android mobile app for registration and reporting, a React admin dashboard with live heatmaps and case management, ESP32+RFID wristband zone tracking, and automated WhatsApp alerts via Twilio — all backed by Firebase Realtime Database and deployed on Google Cloud Run.",
-    heroImage: "/assets/kumbh%20bandhu/hero.png",
+    heroImage: "/assets/kumbh bandhu/hero.png",
     galleryImages: [
-      { url: "/assets/kumbh%20bandhu/hero.png", caption: "Kumbh Bandhu Multimodal System Interface" },
-      { url: "/assets/kumbh%20bandhu/1.png", caption: "Real-Time Pilgrim Search & Embedding Matching" },
-      { url: "/assets/kumbh%20bandhu/2.png", caption: "Biometric Confidence Ranking Console" },
-      { url: "/assets/kumbh%20bandhu/3.png", caption: "RFID & Camera Node Mesh Telemetry Map" },
-      { url: "/assets/kumbh%20bandhu/4.png", caption: "Reunification Dispatch & Verification Terminal" },
-      { url: "/assets/kumbh%20bandhu/Kumbh%20Bandhu%20missing%20person%20systen%20(1).png", caption: "Missing Person Detection Workflow Overview" }
+      { url: "/assets/kumbh bandhu/web/dashboard.png", caption: "Admin Analytics & Case Management Dashboard", category: "web" },
+      { url: "/assets/kumbh bandhu/web/heatmap.png", caption: "Real-Time Pilgrim Density & Crowd Heatmap", category: "web" },
+      { url: "/assets/kumbh bandhu/web/Volunteer Map.png", caption: "Geo-Spatial Volunteer Tracking Map", category: "web" },
+      { url: "/assets/kumbh bandhu/web/Reunion Centers.png", caption: "Reunification Help Desk & Sector Centers", category: "web" },
+      { url: "/assets/kumbh bandhu/web/zones.png", caption: "Mela Ground Sector Zones Monitoring", category: "web" },
+      { url: "/assets/kumbh bandhu/web/zone_details.png", caption: "Detailed Zone Entry & Exit Analytics", category: "web" },
+      { url: "/assets/kumbh bandhu/web/lost_workflow0.png", caption: "Missing Person Report Filing Console", category: "web" },
+      { url: "/assets/kumbh bandhu/web/lost_workflow2.png", caption: "Biometric Match Verification Terminal", category: "web" },
+      { url: "/assets/kumbh bandhu/web/user.png", caption: "Pilgrim Biometric Profile & Metadata", category: "web" },
+      { url: "/assets/kumbh bandhu/web/voluteer.png", caption: "Volunteer Task Dispatch Panel", category: "web" },
+      { url: "/assets/kumbh bandhu/web/admin_login.png", caption: "Secure Portal Authentication", category: "web" },
+
+      { url: "/assets/kumbh bandhu/mobile/home.png", caption: "Kumbh Bandhu Mobile App Home Dashboard", category: "mobile" },
+      { url: "/assets/kumbh bandhu/mobile/registration.png", caption: "Pilgrim Face & Metadata Registration", category: "mobile" },
+      { url: "/assets/kumbh bandhu/mobile/otp-verification.png", caption: "SMS OTP Verification Screen", category: "mobile" },
+      { url: "/assets/kumbh bandhu/mobile/map.png", caption: "Interactive Mela Grounds Map & GPS Navigation", category: "mobile" },
+      { url: "/assets/kumbh bandhu/mobile/attractions.png", caption: "Key Attractions & Emergency Assistance Stations", category: "mobile" },
+      { url: "/assets/kumbh bandhu/mobile/chatbot.png", caption: "Multilingual AI Chatbot Assistant", category: "mobile" },
+
+      { url: "/assets/kumbh bandhu/methodology/Kumbh Bandhu missing person systen (1).png", caption: "End-to-End Missing Person Detection Workflow Diagram", category: "methodology" },
+      { url: "/assets/kumbh bandhu/methodology/face-detection.png", caption: "InsightFace 512-dim CNN Embedding Extraction", category: "methodology" },
+      { url: "/assets/kumbh bandhu/methodology/capability-comparision.png", caption: "Capability & Identification Accuracy Matrix", category: "methodology" },
+      { url: "/assets/kumbh bandhu/methodology/user-tracking.png", caption: "RFID Wristband & CCTV Spatial User Tracking", category: "methodology" },
+      { url: "/assets/kumbh bandhu/methodology/zone-monitoring.png", caption: "Sector-Wise Pilgrim Flow & Zone Analytics", category: "methodology" }
     ],
     architectureNodes: [
       "1. Mobile App (Android/Kotlin) — Pilgrim registration, missing/found person reporting, FCM push alerts",
@@ -178,14 +196,21 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     tagline: "Enterprise-grade open-source digital humanities platform with Quad-Layer Exegesis, SoundCloud Audio Sync, and Scholar Workbench.",
     problem: "Historical Sikh manuscripts (Sri Gur Pratap Suraj Granth, Sri Gur Panth Prakash, Faridkot Teeka) present complex structural, linguistic, and multi-layered commentary challenges that standard ebook readers cannot handle.",
     solution: "A decoupled serverless JAMstack digital library featuring a Quad-Layer Exegesis Engine (Original Gurmukhi, Padh Arth word-by-word, Teeka concise commentary, Steek extended analysis), millisecond audio sync, and Supabase RLS Scholar Workbench.",
-    heroImage: "/assets/granthalaya/hero.png",
+    heroImage: "/assets/granthalaya/web/hero.png",
     galleryImages: [
-      { url: "/assets/granthalaya/hero.png", caption: "Granthalaya Scholar Reader & Workbench" },
-      { url: "/assets/granthalaya/granths.png", caption: "Digital Scripture Archive Index" },
-      { url: "/assets/granthalaya/reader.png", caption: "Triple-Column Comparative Verse Reader" },
-      { url: "/assets/granthalaya/chapter_index.png", caption: "Chapter & Ang Navigation Index" },
-      { url: "/assets/granthalaya/gurbani.png", caption: "Gurmukhi Typography & Translation Alignment" },
-      { url: "/assets/granthalaya/library.jpeg", caption: "Scholar Editorial Library Dashboard" }
+      { url: "/assets/granthalaya/web/hero.png", caption: "Granthalaya Scholar Reader & Workbench Landing", category: "web" },
+      { url: "/assets/granthalaya/web/granths.png", caption: "Digital Scripture Archive Index", category: "web" },
+      { url: "/assets/granthalaya/web/chapter_index.png", caption: "Chapter & Ang Navigation Index", category: "web" },
+      { url: "/assets/granthalaya/web/reader.png", caption: "Triple-Column Comparative Verse Reader", category: "web" },
+      { url: "/assets/granthalaya/web/gurbani.png", caption: "Gurmukhi Typography & Translation Alignment", category: "web" },
+
+      { url: "/assets/granthalaya/mobile/home.png", caption: "Granthalaya Mobile Reader Home Dashboard", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/granth_index.png", caption: "Mobile Scripture Archive Navigation", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/chapter_index.png", caption: "Mobile Chapter & Ang Index Browser", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/library.png", caption: "Personal Library & Bookmarked Manuscripts", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/gurbani.png", caption: "Mobile Gurmukhi Verse Display", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/reader.png", caption: "Mobile Exegesis & Padh Arth Viewer", category: "mobile" },
+      { url: "/assets/granthalaya/mobile/reader_teeka.png", caption: "Mobile Teeka Commentary Mode", category: "mobile" }
     ],
     architectureNodes: [
       "Client Presentation Layer (React 18 + Vite 5 + TypeScript + Tailwind)",
@@ -224,7 +249,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     solution: "An end-to-end computer vision and OCR pipeline combining OpenCV adaptive binarization, skew correction, and Tesseract script recognition tuned across 9 Indian languages.",
     heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
     galleryImages: [
-      { url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80", caption: "BhashaScan Document OCR Pipeline" }
+      { url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80", caption: "BhashaScan Document OCR Pipeline", category: "web" }
     ],
     architectureNodes: [
       "OpenCV Image Denoising & Skew Correction",
@@ -260,7 +285,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     solution: "A unified cross-platform system comprising a responsive Flutter mobile directory application for members and a React/Vite management dashboard for club administrators.",
     heroImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
     galleryImages: [
-      { url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", caption: "Rotary Roaster Mobile & Web Roster Suite" }
+      { url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", caption: "Rotary Roaster Mobile & Web Roster Suite", category: "mobile" }
     ],
     architectureNodes: [
       "Flutter Mobile Directory App (iOS & Android)",

@@ -32,34 +32,35 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           className="relative w-full max-w-5xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden my-8 text-slate-900 max-h-[90vh] flex flex-col font-sans"
         >
           {/* Header Bar */}
-          <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-[#f9f9f9]">
+          <div className="p-4 sm:p-6 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 bg-[#f9f9f9] shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 text-[#0051d5] flex items-center justify-center font-bold">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-200 text-[#0051d5] flex items-center justify-center font-bold shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-950 text-base sm:text-lg">
+                <h3 className="font-bold text-slate-950 text-sm sm:text-lg">
                   Gursevak Singh Aulakh — Resume / CV
                 </h3>
-                <p className="text-[11px] font-mono text-slate-500">
-                  AI Systems Engineer • Published Patent Inventor • Academic Mentor
+                <p className="text-[10px] sm:text-[11px] font-mono text-slate-500 line-clamp-1">
+                  AI Systems Engineer • Published Patent Inventor
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 ml-auto sm:ml-0">
               <a
                 href={pdfUrl}
                 download="Gursevak_Singh_Aulakh_Resume.pdf"
-                className="px-4 py-2.5 rounded bg-[#0051d5] hover:bg-[#003ea8] text-white text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+                className="px-3 sm:px-4 py-2 sm:py-2.5 rounded bg-[#0051d5] hover:bg-[#003ea8] text-white text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
               >
-                <Download className="w-4 h-4" />
-                <span>Download Resume PDF</span>
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Download Resume PDF</span>
+                <span className="sm:hidden">PDF</span>
               </a>
 
               <button
                 onClick={onClose}
-                className="p-2 text-slate-500 hover:text-slate-900 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+                className="p-2 text-slate-500 hover:text-slate-900 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>

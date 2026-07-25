@@ -44,6 +44,7 @@ export default function HeroPlatform({
       e: React.MouseEvent,
       setter: React.Dispatch<React.SetStateAction<{ x: number; y: number }>>
     ) => {
+      if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
       const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;

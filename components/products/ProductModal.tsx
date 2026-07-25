@@ -6,6 +6,7 @@ import { X, ExternalLink, Layers, Cpu, Server, Database, Volume2, Mic, Bot, Acti
 import { GithubIcon } from "@/components/ui/icons";
 import { SystemProduct } from "@/lib/data/portfolio-data";
 import EvaAvatarCycling from "@/components/ui/EvaAvatarCycling";
+import AdvancedLightbox from "@/components/ui/AdvancedLightbox";
 
 interface ProductModalProps {
   product: SystemProduct | null;
@@ -14,11 +15,14 @@ interface ProductModalProps {
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const [activeTab, setActiveTab] = useState<"overview" | "gallery" | "workflow" | "hardware" | "exegesis" | "kumbh-arch" | "kumbh-hardware">("overview");
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [galleryFilter, setGalleryFilter] = useState<"all" | "web" | "mobile" | "methodology" | "hardware">("all");
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   useEffect(() => {
     // Reset tab to overview when product changes
     setActiveTab("overview");
+    setGalleryFilter("all");
+    setLightboxIndex(null);
   }, [product]);
 
   if (!product) return null;
@@ -26,6 +30,17 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const isEva = product.id === "eva-robot";
   const isGranthalaya = product.id === "granthalaya";
   const isKumbh = product.id === "kumbh-bandhu";
+
+  const galleryImages = product.galleryImages || [];
+  const webImagesCount = galleryImages.filter((img) => img.category === "web").length;
+  const mobileImagesCount = galleryImages.filter((img) => img.category === "mobile").length;
+  const methodologyImagesCount = galleryImages.filter((img) => img.category === "methodology").length;
+  const hardwareImagesCount = galleryImages.filter((img) => img.category === "hardware").length;
+
+  const filteredGalleryImages = galleryImages.filter((img) => {
+    if (galleryFilter === "all") return true;
+    return img.category === galleryFilter;
+  });
 
   const kumbhArchSteps = [
     { step: "1", title: "Mobile App", desc: "Android/Kotlin — Pilgrim registration, missing/found person reporting, FCM push alerts", icon: Smartphone },
@@ -53,29 +68,29 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-slate-900/60 backdrop-blur-md overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden my-8 text-slate-900 max-h-[90vh] flex flex-col font-sans"
+          className="relative w-full max-w-4xl bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden my-4 sm:my-8 text-slate-900 max-h-[92vh] sm:max-h-[88vh] flex flex-col font-sans"
         >
           {/* Top Header Bar */}
-          <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-[#f9f9f9]">
-            <div className="flex items-center gap-4">
-              {isEva && <EvaAvatarCycling className="w-10 h-10 shrink-0" />}
+          <div className="p-4 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-[#f9f9f9] shrink-0">
+            <div className="flex items-center gap-3 sm:gap-4 pr-2">
+              {isEva && <EvaAvatarCycling className="w-9 h-9 sm:w-10 sm:h-10 shrink-0" />}
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#0051d5] bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-[#0051d5] bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
                     {product.category}
                   </span>
                   {product.patentNo && (
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
+                    <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                       Patent: {product.patentNo}
                     </span>
                   )}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-950 mt-1">
+                <h3 className="text-lg sm:text-2xl font-bold text-slate-950 mt-1 line-clamp-1">
                   {product.name} — {product.subtitle}
                 </h3>
               </div>
@@ -83,20 +98,21 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
             <button
               onClick={onClose}
-              className="p-2 text-slate-500 hover:text-slate-900 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer"
+              className="p-2 text-slate-500 hover:text-slate-900 rounded-lg bg-slate-100 hover:bg-slate-200 transition-colors cursor-pointer shrink-0"
+              aria-label="Close Modal"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Premium Segmented Pill Navigation Bar */}
-          <div className="bg-[#f3f3f3] px-6 py-3 border-b border-slate-200 font-mono text-xs">
-            <div className="bg-slate-200/70 p-1 rounded-xl border border-slate-300/80 inline-flex flex-wrap gap-1 max-w-full">
+          {/* Premium Segmented Pill Navigation Bar (Touch Horizontal Scrollable) */}
+          <div className="bg-[#f3f3f3] px-3 sm:px-6 py-2.5 border-b border-slate-200 font-mono text-xs overflow-x-auto scrollbar-none shrink-0">
+            <div className="bg-slate-200/70 p-1 rounded-xl border border-slate-300/80 inline-flex flex-nowrap gap-1 min-w-max">
               
               {/* Overview Tab */}
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                   activeTab === "overview"
                     ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                     : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
@@ -107,17 +123,17 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               </button>
 
               {/* Gallery Tab */}
-              {product.galleryImages && product.galleryImages.length > 0 && (
+              {galleryImages.length > 0 && (
                 <button
                   onClick={() => setActiveTab("gallery")}
-                  className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                  className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                     activeTab === "gallery"
                       ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                       : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
                   }`}
                 >
                   <Images className="w-3.5 h-3.5" />
-                  <span>Project Screenshots ({product.galleryImages.length})</span>
+                  <span>Screenshots ({galleryImages.length})</span>
                 </button>
               )}
 
@@ -125,14 +141,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               {isGranthalaya && (
                 <button
                   onClick={() => setActiveTab("exegesis")}
-                  className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                  className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                     activeTab === "exegesis"
                       ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                       : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
                   }`}
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Quad-Layer Exegesis & Audio Sync</span>
+                  <span>Quad-Layer Exegesis</span>
                 </button>
               )}
 
@@ -141,7 +157,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <>
                   <button
                     onClick={() => setActiveTab("workflow")}
-                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                    className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                       activeTab === "workflow"
                         ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                         : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
@@ -152,7 +168,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   </button>
                   <button
                     onClick={() => setActiveTab("hardware")}
-                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                    className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                       activeTab === "hardware"
                         ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                         : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
@@ -169,7 +185,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 <>
                   <button
                     onClick={() => setActiveTab("kumbh-arch")}
-                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                    className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                       activeTab === "kumbh-arch"
                         ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                         : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
@@ -180,7 +196,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                   </button>
                   <button
                     onClick={() => setActiveTab("kumbh-hardware")}
-                    className={`py-2 px-4 rounded-lg font-bold uppercase flex items-center gap-2 transition-all cursor-pointer ${
+                    className={`py-2 px-3.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer text-[11px] ${
                       activeTab === "kumbh-hardware"
                         ? "bg-[#0051d5] text-white shadow-md shadow-blue-600/20"
                         : "text-slate-700 hover:text-slate-950 hover:bg-slate-300/60 font-semibold"
@@ -196,19 +212,19 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
           </div>
 
           {/* Modal Body Scroll */}
-          <div className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1">
+          <div className="p-4 sm:p-8 overflow-y-auto space-y-6 sm:space-y-8 flex-1">
             
             {/* Overview & Specs Tab */}
             {activeTab === "overview" && (
               <>
                 {/* Tagline */}
-                <p className="text-base text-slate-800 font-medium leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-800 font-medium leading-relaxed">
                   {product.tagline}
                 </p>
 
                 {/* Problem & Solution Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                     <span className="text-xs font-mono font-bold text-rose-600 uppercase tracking-wider">
                       THE CHALLENGE
                     </span>
@@ -217,7 +233,7 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                     </p>
                   </div>
 
-                  <div className="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                  <div className="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                     <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-wider">
                       THE ARCHITECTURAL SOLUTION
                     </span>
@@ -228,11 +244,11 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
                 </div>
 
                 {/* Metrics Row */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-[#0051d5]/5 rounded-xl border border-[#0051d5]/20">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-5 bg-[#0051d5]/5 rounded-xl border border-[#0051d5]/20">
                   {product.metrics.map((m, idx) => (
                     <div key={idx}>
-                      <p className="text-xl font-bold font-mono text-[#0051d5]">{m.value}</p>
-                      <p className="text-[11px] text-slate-600 font-mono font-semibold">{m.label}</p>
+                      <p className="text-lg sm:text-xl font-bold font-mono text-[#0051d5]">{m.value}</p>
+                      <p className="text-[10px] sm:text-[11px] text-slate-600 font-mono font-semibold">{m.label}</p>
                     </div>
                   ))}
                 </div>
@@ -314,34 +330,138 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
               </div>
             )}
 
-            {/* Project Screenshots Gallery Tab */}
-            {activeTab === "gallery" && product.galleryImages && (
+            {/* Project Screenshots Gallery Tab with Categorized Sub-Filters */}
+            {activeTab === "gallery" && galleryImages.length > 0 && (
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-bold text-slate-950">{product.name} — Project Media & Screenshots</h4>
-                  <p className="text-xs text-slate-600 font-mono">Click any screenshot to open high-resolution image preview.</p>
+                  <h4 className="text-base sm:text-lg font-bold text-slate-950">{product.name} — Project Media & Screenshots</h4>
+                  <p className="text-xs text-slate-600 font-mono">Select a category below or click any screenshot to view full resolution.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {product.galleryImages.map((img, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => setSelectedImage(img.url)}
-                      className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-md group hover:border-[#0051d5] transition-all cursor-pointer"
+                {/* Sub-Category Filter Bar */}
+                <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
+                  <button
+                    onClick={() => setGalleryFilter("all")}
+                    className={`px-3 py-1.5 rounded-lg font-bold uppercase transition-all cursor-pointer ${
+                      galleryFilter === "all"
+                        ? "bg-[#0051d5] text-white shadow-sm"
+                        : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                    }`}
+                  >
+                    ALL ({galleryImages.length})
+                  </button>
+
+                  {webImagesCount > 0 && (
+                    <button
+                      onClick={() => setGalleryFilter("web")}
+                      className={`px-3 py-1.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
+                        galleryFilter === "web"
+                          ? "bg-[#0051d5] text-white shadow-sm"
+                          : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                      }`}
                     >
-                      <div className="aspect-[16/10] overflow-hidden bg-slate-950 relative">
-                        <img
-                          src={img.url}
-                          alt={img.caption}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
+                      <Monitor className="w-3.5 h-3.5" />
+                      <span>Web Dashboard ({webImagesCount})</span>
+                    </button>
+                  )}
+
+                  {mobileImagesCount > 0 && (
+                    <button
+                      onClick={() => setGalleryFilter("mobile")}
+                      className={`px-3 py-1.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
+                        galleryFilter === "mobile"
+                          ? "bg-[#0051d5] text-white shadow-sm"
+                          : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                      }`}
+                    >
+                      <Smartphone className="w-3.5 h-3.5" />
+                      <span>Mobile App ({mobileImagesCount})</span>
+                    </button>
+                  )}
+
+                  {methodologyImagesCount > 0 && (
+                    <button
+                      onClick={() => setGalleryFilter("methodology")}
+                      className={`px-3 py-1.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
+                        galleryFilter === "methodology"
+                          ? "bg-[#0051d5] text-white shadow-sm"
+                          : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                      }`}
+                    >
+                      <Activity className="w-3.5 h-3.5" />
+                      <span>Methodology ({methodologyImagesCount})</span>
+                    </button>
+                  )}
+
+                  {hardwareImagesCount > 0 && (
+                    <button
+                      onClick={() => setGalleryFilter("hardware")}
+                      className={`px-3 py-1.5 rounded-lg font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
+                        galleryFilter === "hardware"
+                          ? "bg-[#0051d5] text-white shadow-sm"
+                          : "bg-slate-100 hover:bg-slate-200 text-slate-700"
+                      }`}
+                    >
+                      <Cpu className="w-3.5 h-3.5" />
+                      <span>Hardware ({hardwareImagesCount})</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Categorized Image Grid Display */}
+                <div className={`grid gap-6 ${
+                  galleryFilter === "mobile" || (filteredGalleryImages.length > 0 && filteredGalleryImages.every(i => i.category === "mobile"))
+                    ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" 
+                    : "grid-cols-1 md:grid-cols-2"
+                }`}>
+                  {filteredGalleryImages.map((img, idx) => {
+                    const isMobileImg = img.category === "mobile";
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setLightboxIndex(idx)}
+                        className={`bg-white border border-slate-200 rounded-xl overflow-hidden shadow-md group hover:border-[#0051d5] transition-all cursor-pointer flex flex-col ${
+                          isMobileImg ? "max-w-[240px] mx-auto w-full border-slate-300" : ""
+                        }`}
+                      >
+                        {/* Frame Header for realistic device feel */}
+                        {isMobileImg ? (
+                          <div className="bg-slate-900 pt-2 pb-1 px-4 flex justify-center items-center rounded-t-xl border-b border-slate-800">
+                            <div className="w-12 h-1.5 bg-slate-700 rounded-full" />
+                          </div>
+                        ) : (
+                          <div className="bg-slate-100 px-3 py-2 flex items-center gap-1.5 border-b border-slate-200 text-slate-400">
+                            <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block" />
+                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                            <span className="text-[10px] font-mono font-medium text-slate-500 ml-2 truncate">
+                              {img.category ? img.category.toUpperCase() : "SCREENSHOT"} PREVIEW
+                            </span>
+                          </div>
+                        )}
+
+                        <div className={`overflow-hidden bg-slate-950 relative ${
+                          isMobileImg ? "aspect-[9/18.5]" : "aspect-[16/10]"
+                        }`}>
+                          <img
+                            src={img.url}
+                            alt={img.caption}
+                            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="px-3 py-1.5 bg-[#0051d5] text-white text-[10px] font-mono font-bold rounded shadow-lg uppercase">
+                              View Fullscreen ↗
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between font-mono text-xs mt-auto">
+                          <span className="font-bold text-slate-800 line-clamp-1 text-[11px]">{img.caption}</span>
+                          <span className="text-[9px] text-[#0051d5] uppercase font-bold shrink-0 ml-2">EXPAND</span>
+                        </div>
                       </div>
-                      <div className="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between font-mono text-xs">
-                        <span className="font-bold text-slate-800">{img.caption}</span>
-                        <span className="text-[10px] text-[#0051d5] uppercase font-bold">EXPAND ↗</span>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -550,20 +670,15 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
 
           </div>
 
-          {/* Fullscreen Image Lightbox Modal */}
-          {selectedImage && (
-            <div
-              onClick={() => setSelectedImage(null)}
-              className="fixed inset-0 z-[100] bg-slate-950/90 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer"
-            >
-              <div className="relative max-w-5xl max-h-[90vh]">
-                <img src={selectedImage} alt="Expanded Screenshot" className="max-w-full max-h-[85vh] rounded-lg object-contain border border-slate-700 shadow-2xl" />
-                <button className="absolute top-2 right-2 bg-slate-900 text-white p-2 rounded-full border border-slate-700">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Advanced Image Lightbox Modal with Zoom, Pan, Navigation & Metadata Sidebar */}
+          <AdvancedLightbox
+            isOpen={lightboxIndex !== null}
+            images={filteredGalleryImages}
+            currentIndex={lightboxIndex || 0}
+            onClose={() => setLightboxIndex(null)}
+            onNavigate={(idx) => setLightboxIndex(idx)}
+            projectName={product.name}
+          />
 
           {/* Footer Bar */}
           <div className="p-6 border-t border-slate-200 bg-[#f9f9f9] flex items-center justify-between gap-4 font-mono">

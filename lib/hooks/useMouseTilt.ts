@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 
 interface TiltValues {
   rotateX: number;
@@ -24,6 +24,7 @@ interface UseMouseTiltOptions {
 export function useMouseTilt(options: UseMouseTiltOptions = {}) {
   const { maxTilt = 10, reverse = false } = options;
   const ref = useRef<HTMLDivElement>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [tilt, setTilt] = useState<TiltValues>({
     rotateX: 0,
     rotateY: 0,
@@ -32,9 +33,16 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
     isHovered: false,
   });
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+      setIsTouchDevice(isCoarse);
+    }
+  }, []);
+
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!ref.current) return;
+      if (isTouchDevice || !ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -52,7 +60,7 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
         isHovered: true,
       });
     },
-    [maxTilt, reverse]
+    [maxTilt, reverse, isTouchDevice]
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -73,10 +81,13 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
       onMouseLeave: handleMouseLeave,
     },
     style: {
-      transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+      transform: isTouchDevice
+        ? "none"
+        : `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
       transition: tilt.isHovered
         ? "transform 0.1s ease-out"
         : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
     },
   };
 }
+

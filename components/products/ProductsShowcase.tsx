@@ -224,9 +224,9 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                     <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-lg shadow-xl border border-slate-200 flex items-center justify-between font-mono text-xs">
                       <div className="flex items-center gap-2.5">
                         <span className="w-2.5 h-2.5 rounded-full bg-[#0051d5] animate-pulse" />
-                        <span className="font-bold text-slate-900">EVA AI Assistant System</span>
+                        <span className="font-bold text-slate-900 line-clamp-1">EVA AI Assistant System</span>
                       </div>
-                      <span className="text-[10px] text-[#0051d5] font-bold uppercase">VIEW 11 PROJECT IMAGES →</span>
+                      <span className="text-[10px] text-[#0051d5] font-bold uppercase shrink-0">VIEW {eva.galleryImages.length} IMAGES →</span>
                     </div>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
                     />
 
                     <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-md font-mono text-[10px] font-bold text-[#0051d5] uppercase shadow-md">
-                      VIEW 6 PROJECT IMAGES →
+                      VIEW {kumbh.galleryImages.length} IMAGES (WEB / MOBILE / METHODOLOGY) →
                     </div>
                   </div>
                 </div>
