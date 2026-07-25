@@ -107,7 +107,7 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
               </div>
 
               <h3 className="text-3xl sm:text-4xl font-extrabold text-slate-950 tracking-tight">
-                EVA — AI Department Assistant
+                EVA — AI-Powered Institutional Assistant System
               </h3>
 
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-sans">

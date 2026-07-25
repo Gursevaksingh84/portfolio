@@ -55,15 +55,15 @@ export default function Navbar({ onOpenAssistant, onOpenResume, onOpenPalette }:
           : "bg-[#f9f9f9]/90 backdrop-blur-xl border-b border-slate-200/60"
       }`}
     >
-      <div className="h-20 max-w-[1200px] mx-auto px-5 lg:px-8 flex items-center justify-between">
+      <div className="h-16 sm:h-20 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         
         {/* Brand Logo & Name */}
-        <a href="#home" className="flex items-center gap-3 group">
-          <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 uppercase font-sans group-hover:text-[#0051d5] transition-colors">
+        <a href="#home" className="flex items-center gap-2 sm:gap-3 group">
+          <span className="font-extrabold text-xs sm:text-base lg:text-lg tracking-tight text-slate-900 uppercase font-sans group-hover:text-[#0051d5] transition-colors line-clamp-1">
             GURSEVAK SINGH AULAKH
           </span>
-          <span className="w-2 h-2 bg-[#0051d5] rounded-full" />
-          <span className="hidden sm:inline font-mono text-xs text-slate-500 uppercase tracking-widest font-medium">
+          <span className="w-2 h-2 bg-[#0051d5] rounded-full shrink-0" />
+          <span className="hidden sm:inline font-mono text-xs text-slate-500 uppercase tracking-widest font-medium shrink-0">
             AI Engineering
           </span>
         </a>

@@ -98,12 +98,12 @@ export default function AIAssistantModal({ isOpen, onClose, initialQuery }: Assi
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-end p-4 sm:p-6 bg-slate-900/40 backdrop-blur-xs">
+      <div className="fixed inset-0 z-50 flex items-center justify-center sm:justify-end p-2 sm:p-6 bg-slate-900/40 backdrop-blur-xs">
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 50 }}
-          className="w-full max-w-lg h-[90vh] bg-white rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden font-sans"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="w-full max-w-lg h-[95vh] sm:h-[90vh] bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden font-sans"
         >
           {/* Header */}
           <div className="p-5 border-b border-slate-200 bg-[#f9f9f9] flex items-center justify-between">

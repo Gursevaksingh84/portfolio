@@ -36,6 +36,14 @@
   code, pre, .font-mono, .font-mono-label {
     font-family: 'Space Mono', var(--font-jetbrains-mono), monospace;
   }
+
+  img, svg, video, iframe {
+    max-width: 100%;
+  }
+
+  p, h1, h2, h3, h4, span {
+    overflow-wrap: break-word;
+  }
 }
 
 /* Custom Scrollbar - Minimalist */

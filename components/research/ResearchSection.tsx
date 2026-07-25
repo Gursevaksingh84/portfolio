@@ -53,7 +53,7 @@ export default function ResearchSection() {
                     {item.statusTag}
                   </span>
                   {item.referenceNo && (
-                    <span className="font-mono text-xs text-[#0051d5] font-bold">
+                    <span className="font-mono text-xs text-[#0051d5] font-bold truncate max-w-full">
                       {item.referenceNo}
                     </span>
                   )}

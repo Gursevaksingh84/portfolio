@@ -106,7 +106,7 @@ export default function HeroPlatform({
 
             <motion.h1
               variants={staggerItem}
-              className="font-extrabold text-5xl sm:text-6xl lg:text-[72px] leading-[0.93] text-slate-950 uppercase tracking-tighter mb-6"
+              className="font-extrabold text-3xl sm:text-6xl lg:text-[72px] leading-[0.95] text-slate-950 uppercase tracking-tighter mb-4 sm:mb-6"
             >
               <span className="block hero-shimmer-text">GURSEVAK</span>
               <span className="block lg:pl-12 text-slate-400 italic font-light hover:text-[#0051d5] transition-colors duration-700">
@@ -116,7 +116,7 @@ export default function HeroPlatform({
 
             <motion.p
               variants={staggerItem}
-              className="text-lg sm:text-xl font-medium text-slate-800 leading-snug mb-6 max-w-xl"
+              className="text-base sm:text-xl font-medium text-slate-800 leading-relaxed sm:leading-snug mb-5 sm:mb-6 max-w-xl"
             >
               AI Systems Engineer, Robotics Developer & Published Patent Co-Inventor specializing in{" "}
               <span className="text-[#0051d5] font-bold">on-device AI</span> & physical infrastructure.
@@ -124,14 +124,14 @@ export default function HeroPlatform({
 
             <motion.div
               variants={staggerItem}
-              className="mb-8 inline-flex items-center gap-2 px-3.5 py-2 rounded bg-blue-50 border border-blue-200/80 text-[#0051d5] font-mono text-xs font-bold w-fit shadow-sm"
+              className="mb-6 sm:mb-8 inline-flex items-center gap-2 px-3 sm:px-3.5 py-2 rounded bg-blue-50 border border-blue-200/80 text-[#0051d5] font-mono text-[11px] sm:text-xs font-bold w-fit shadow-sm max-w-full"
             >
-              <span className="material-symbols-outlined text-base">verified</span>
-              <span>Published Indian Patent Application No. 202621047713 A</span>
+              <span className="material-symbols-outlined text-sm sm:text-base shrink-0">verified</span>
+              <span className="truncate">Published Indian Patent Application No. 202621047713 A</span>
             </motion.div>
 
             {/* Action Buttons with Magnetic Effect */}
-            <motion.div variants={staggerItem} className="flex flex-wrap items-center gap-4 mb-8">
+            <motion.div variants={staggerItem} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-8">
               <div
                 onMouseMove={(e) => handleMagnetic(e, setBtn1Offset)}
                 onMouseLeave={() => resetMagnetic(setBtn1Offset)}

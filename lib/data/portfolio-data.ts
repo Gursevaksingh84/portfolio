@@ -72,7 +72,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
   {
     id: "eva-robot",
     name: "EVA",
-    subtitle: "AI-Powered Cyber-Physical Institutional Assistant System",
+    subtitle: "AI-Powered Institutional Assistant System",
     category: "Robotics & Agentic AI",
     tagline: "Autonomous physical assistant robot with SSD1306 dual OLED eye dynamics, INMP441/MAX98357A I2S audio loops, and Android cellular telephony relay.",
     problem: "Higher education department desks receive hundreds of daily repetitive inquiries regarding timetables, faculty availability, and student attendance analytics, consuming HOD and administrative time.",
