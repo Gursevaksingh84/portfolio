@@ -32,6 +32,24 @@ interface AdvancedLightboxProps {
   projectName?: string;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 120 : direction < 0 ? -120 : 0,
+    opacity: 0,
+    scale: 0.95,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 120 : direction > 0 ? -120 : 0,
+    opacity: 0,
+    scale: 0.95,
+  }),
+};
+
 export default function AdvancedLightbox({
   isOpen,
   images,
@@ -45,6 +63,7 @@ export default function AdvancedLightbox({
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [showMetadata, setShowMetadata] = useState<boolean>(true);
+  const [direction, setDirection] = useState<number>(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const currentImage = images[currentIndex] || images[0];
@@ -54,6 +73,26 @@ export default function AdvancedLightbox({
     setZoomLevel(1);
     setPanPosition({ x: 0, y: 0 });
   }, [currentIndex, isOpen]);
+
+  const handlePrev = useCallback(() => {
+    if (images.length === 0) return;
+    setDirection(-1);
+    const newIdx = (currentIndex - 1 + images.length) % images.length;
+    onNavigate(newIdx);
+  }, [currentIndex, images.length, onNavigate]);
+
+  const handleNext = useCallback(() => {
+    if (images.length === 0) return;
+    setDirection(1);
+    const newIdx = (currentIndex + 1) % images.length;
+    onNavigate(newIdx);
+  }, [currentIndex, images.length, onNavigate]);
+
+  const handleThumbnailClick = (idx: number) => {
+    if (idx === currentIndex) return;
+    setDirection(idx > currentIndex ? 1 : -1);
+    onNavigate(idx);
+  };
 
   // Keyboard navigation & Esc key binding
   useEffect(() => {
@@ -77,19 +116,7 @@ export default function AdvancedLightbox({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, currentIndex, images.length]);
-
-  const handlePrev = useCallback(() => {
-    if (images.length === 0) return;
-    const newIdx = (currentIndex - 1 + images.length) % images.length;
-    onNavigate(newIdx);
-  }, [currentIndex, images.length, onNavigate]);
-
-  const handleNext = useCallback(() => {
-    if (images.length === 0) return;
-    const newIdx = (currentIndex + 1) % images.length;
-    onNavigate(newIdx);
-  }, [currentIndex, images.length, onNavigate]);
+  }, [isOpen, currentIndex, images.length, handlePrev, handleNext, onClose]);
 
   const handleZoomIn = () => {
     setZoomLevel((prev) => Math.min(prev + 0.5, 3.5));
@@ -304,7 +331,7 @@ export default function AdvancedLightbox({
               </button>
             )}
 
-            {/* Canvas Display Viewport with Touch Swipe Listener */}
+            {/* Canvas Display Viewport with Touch Swipe & Slide Transition */}
             <div
               ref={containerRef}
               onWheel={handleWheel}
@@ -319,23 +346,35 @@ export default function AdvancedLightbox({
                 zoomLevel > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : "cursor-default"
               }`}
             >
-              <motion.div
-                style={{
-                  scale: zoomLevel,
-                  x: panPosition.x,
-                  y: panPosition.y,
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.5 }}
-                className={`relative max-w-full max-h-full flex items-center justify-center ${
-                  isMobile ? "max-w-[340px] sm:max-w-[380px]" : "max-w-5xl"
-                }`}
-              >
-                <img
-                  src={currentImage.url}
-                  alt={currentImage.caption}
-                  className="max-w-full max-h-[78vh] rounded-xl object-contain shadow-xl border border-slate-300 bg-white"
-                />
-              </motion.div>
+              <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "spring", stiffness: 300, damping: 28 },
+                    opacity: { duration: 0.2 },
+                    scale: { duration: 0.2 },
+                  }}
+                  style={{
+                    scale: zoomLevel,
+                    x: panPosition.x,
+                    y: panPosition.y,
+                  }}
+                  className={`relative max-w-full max-h-full flex items-center justify-center ${
+                    isMobile ? "max-w-[340px] sm:max-w-[380px]" : "max-w-5xl"
+                  }`}
+                >
+                  <img
+                    src={currentImage.url}
+                    alt={currentImage.caption}
+                    className="max-w-full max-h-[78vh] rounded-xl object-contain shadow-xl border border-slate-300 bg-white"
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Next Image Button */}
@@ -440,7 +479,7 @@ export default function AdvancedLightbox({
               {images.map((img, idx) => (
                 <button
                   key={idx}
-                  onClick={() => onNavigate(idx)}
+                  onClick={() => handleThumbnailClick(idx)}
                   className={`w-12 h-10 rounded-lg overflow-hidden border-2 transition-all shrink-0 cursor-pointer ${
                     idx === currentIndex
                       ? "border-[#0051d5] scale-105 shadow-md shadow-blue-500/20"
