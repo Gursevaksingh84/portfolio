@@ -25,6 +25,7 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
   const { maxTilt = 10, reverse = false } = options;
   const ref = useRef<HTMLDivElement>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [hasGyro, setHasGyro] = useState(false);
   const [tilt, setTilt] = useState<TiltValues>({
     rotateX: 0,
     rotateY: 0,
@@ -37,6 +38,29 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
     if (typeof window !== "undefined") {
       const isCoarse = window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
       setIsTouchDevice(isCoarse);
+
+      if (isCoarse && "DeviceOrientationEvent" in window) {
+        const handleOrientation = (e: DeviceOrientationEvent) => {
+          if (e.gamma === null || e.beta === null) return;
+          setHasGyro(true);
+          const gamma = Math.max(-45, Math.min(45, e.gamma)); // Left/right tilt
+          const beta = Math.max(0, Math.min(90, e.beta));     // Front/back tilt
+          
+          const rotY = (gamma / 45) * 6;
+          const rotX = -((beta - 45) / 45) * 6;
+
+          setTilt({
+            rotateX: rotX,
+            rotateY: rotY,
+            shineX: 50 + (gamma / 45) * 30,
+            shineY: 50 + ((beta - 45) / 45) * 30,
+            isHovered: true,
+          });
+        };
+
+        window.addEventListener("deviceorientation", handleOrientation);
+        return () => window.removeEventListener("deviceorientation", handleOrientation);
+      }
     }
   }, []);
 
@@ -81,13 +105,12 @@ export function useMouseTilt(options: UseMouseTiltOptions = {}) {
       onMouseLeave: handleMouseLeave,
     },
     style: {
-      transform: isTouchDevice
+      transform: (isTouchDevice && !hasGyro)
         ? "none"
         : `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
       transition: tilt.isHovered
-        ? "transform 0.1s ease-out"
+        ? "transform 0.15s ease-out"
         : "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
     },
   };
 }
-

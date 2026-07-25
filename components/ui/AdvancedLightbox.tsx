@@ -145,6 +145,36 @@ export default function AdvancedLightbox({
     }
   };
 
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      touchStartX.current = e.touches[0].clientX;
+      touchStartY.current = e.touches[0].clientY;
+    }
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null || zoomLevel > 1) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX.current;
+    const deltaY = touchEndY - touchStartY.current;
+
+    // Minimum swipe threshold of 40px and dominant horizontal axis
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
   if (!isOpen || !currentImage) return null;
 
   const isMobile = currentImage.category === "mobile";
@@ -274,7 +304,7 @@ export default function AdvancedLightbox({
               </button>
             )}
 
-            {/* Canvas Display Viewport */}
+            {/* Canvas Display Viewport with Touch Swipe Listener */}
             <div
               ref={containerRef}
               onWheel={handleWheel}
@@ -283,6 +313,8 @@ export default function AdvancedLightbox({
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
               onDoubleClick={handleDoubleTap}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
               className={`flex-1 flex items-center justify-center p-4 sm:p-8 overflow-hidden relative ${
                 zoomLevel > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : "cursor-default"
               }`}
