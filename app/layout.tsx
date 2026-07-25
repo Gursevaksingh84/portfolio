@@ -90,6 +90,9 @@ export const metadata: Metadata = {
       "Published Indian Patent (App No. 202621047713 A), Edge AI, Multimodal ArcFace Biometrics, ESP32-S3 Robotics, and Full-Stack Engineering.",
     images: ["/assets/kumbh bandhu/hero.png"],
   },
+  verification: {
+    google: "BrvOWU1X8NNqVC2iYfmy43JFQtR8Zgj3b7GQwU8xt_Y",
+  },
 };
 
 export default function RootLayout({
@@ -134,6 +137,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`scroll-smooth ${inter.variable} ${spaceMono.variable} ${jetbrainsMono.variable}`}>
       <head>
+        <meta name="google-site-verification" content="BrvOWU1X8NNqVC2iYfmy43JFQtR8Zgj3b7GQwU8xt_Y" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
