@@ -39,8 +39,6 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
   const [openAccordions, setOpenAccordions] = useState<Record<string, string | null>>({
     "eva-robot": null,
     "kumbh-bandhu": null,
-    "granthalaya": null,
-    "bhashascan": null,
   });
 
   const toggleAccordion = (projectId: string, tab: string, e: React.MouseEvent) => {
@@ -53,8 +51,13 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
 
   const eva = SYSTEM_PRODUCTS.find((p) => p.id === "eva-robot") || SYSTEM_PRODUCTS[0];
   const kumbh = SYSTEM_PRODUCTS.find((p) => p.id === "kumbh-bandhu") || SYSTEM_PRODUCTS[1];
-  const granthalaya = SYSTEM_PRODUCTS.find((p) => p.id === "granthalaya") || SYSTEM_PRODUCTS[2];
-  const bhashascan = SYSTEM_PRODUCTS.find((p) => p.id === "bhashascan") || SYSTEM_PRODUCTS[3];
+
+  // Every remaining product (Fateh ERP, Fateh Web Portal, Granthalaya, Rotary Roaster, ...)
+  // renders automatically in the grid below — add/remove projects in portfolio-data.ts
+  // and this list updates itself, no need to hardcode each one here.
+  const otherProducts = SYSTEM_PRODUCTS.filter(
+    (p) => p.id !== "eva-robot" && p.id !== "kumbh-bandhu"
+  );
 
   return (
     <section id="projects" className="w-full bg-[#f9f9f9] py-16 lg:py-24">
@@ -394,133 +397,88 @@ export default function ProductsShowcase({ onSelectProduct }: ProductsShowcasePr
           </div>
         </motion.div>
 
-        {/* Additional Projects: Granthalaya & BhashaScan */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6">
-          
-          {/* Granthalaya (Entire Card Clickable) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ delay: 0.1 }}
-          >
-            <TiltCard className="h-full">
-              <div
-                onClick={() => onSelectProduct(granthalaya)}
-                className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full cursor-pointer"
-              >
-                <div>
-                  <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5 border border-slate-200 relative bg-slate-950">
-                    <img
-                      src={granthalaya.heroImage}
-                      alt="Granthalaya Hero"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+        {/* Additional Projects — renders every product in SYSTEM_PRODUCTS other than
+            EVA and Kumbh Bandhu, so adding/removing a project only ever requires
+            editing portfolio-data.ts */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 pt-6">
+          {otherProducts.map((product, idx) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-30px" }}
+              transition={{ delay: 0.1 * idx }}
+            >
+              <TiltCard className="h-full">
+                <div
+                  onClick={() => onSelectProduct(product)}
+                  className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full cursor-pointer"
+                >
+                  <div>
+                    <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5 border border-slate-200 relative bg-slate-950">
+                      <img
+                        src={product.heroImage}
+                        alt={`${product.name} Hero`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between mb-3 gap-2">
+                      <span className="px-2.5 py-0.5 bg-[#0051d5] text-white font-mono text-[10px] uppercase font-bold rounded-sm shrink-0">
+                        PROJECT {String(idx + 3).padStart(2, "0")}
+                      </span>
+                      <span className="font-mono text-xs text-[#0051d5] font-bold uppercase text-right">
+                        {product.category}
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-slate-950 mb-2 group-hover:text-[#0051d5] transition-colors">{product.name}</h3>
+                    <p className="text-xs text-slate-500 font-mono mb-3">{product.subtitle}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed mb-6 font-sans">{product.tagline}</p>
                   </div>
 
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="px-2.5 py-0.5 bg-[#0051d5] text-white font-mono text-[10px] uppercase font-bold rounded-sm">
-                      PROJECT 03
-                    </span>
-                    <span className="font-mono text-xs text-[#0051d5] font-bold uppercase">
-                      {granthalaya.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-slate-950 mb-2 group-hover:text-[#0051d5] transition-colors">{granthalaya.name}</h3>
-                  <p className="text-xs text-slate-500 font-mono mb-3">{granthalaya.subtitle}</p>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-6 font-sans">{granthalaya.tagline}</p>
-                </div>
-
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectProduct(granthalaya);
-                    }}
-                    className="px-4 py-2 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase rounded-sm cursor-pointer hover:bg-[#003ea8]"
-                  >
-                    View Project & Gallery ({granthalaya.galleryImages.length})
-                  </button>
-                  {granthalaya.liveUrl && (
-                    <a
-                      href={granthalaya.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-xs font-mono font-bold text-[#0051d5] hover:underline flex items-center gap-1 uppercase"
+                  <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onSelectProduct(product);
+                      }}
+                      className="px-4 py-2 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase rounded-sm cursor-pointer hover:bg-[#003ea8]"
                     >
-                      <span>Launch Live</span>
-                      <span className="material-symbols-outlined text-xs">open_in_new</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </TiltCard>
-          </motion.div>
+                      View Project & Gallery ({product.galleryImages.length})
+                    </button>
 
-          {/* BhashaScan (Entire Card Clickable) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-30px" }}
-            transition={{ delay: 0.2 }}
-          >
-            <TiltCard className="h-full">
-              <div
-                onClick={() => onSelectProduct(bhashascan)}
-                className="bg-white border border-slate-200 rounded-xl p-6 shadow-xl flex flex-col justify-between hover:border-[#0051d5]/50 transition-all group h-full cursor-pointer"
-              >
-                <div>
-                  <div className="aspect-[16/9] rounded-lg overflow-hidden mb-5 border border-slate-200 relative bg-slate-950">
-                    <img
-                      src={bhashascan.heroImage}
-                      alt="BhashaScan Hero"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+                    <div className="flex items-center gap-4">
+                      {product.appreciationLetterUrl && (
+                        <a
+                          href={product.appreciationLetterUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs font-mono font-bold text-emerald-700 hover:underline flex items-center gap-1 uppercase"
+                        >
+                          <span className="material-symbols-outlined text-xs">workspace_premium</span>
+                          <span>Letter of Appreciation</span>
+                        </a>
+                      )}
+                      {product.liveUrl && (
+                        <a
+                          href={product.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs font-mono font-bold text-[#0051d5] hover:underline flex items-center gap-1 uppercase"
+                        >
+                          <span>Launch Live</span>
+                          <span className="material-symbols-outlined text-xs">open_in_new</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="px-2.5 py-0.5 bg-[#0051d5] text-white font-mono text-[10px] uppercase font-bold rounded-sm">
-                      PROJECT 04
-                    </span>
-                    <span className="font-mono text-xs text-[#0051d5] font-bold uppercase">
-                      {bhashascan.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-slate-950 mb-2 group-hover:text-[#0051d5] transition-colors">{bhashascan.name}</h3>
-                  <p className="text-xs text-slate-500 font-mono mb-3">{bhashascan.subtitle}</p>
-                  <p className="text-sm text-slate-600 leading-relaxed mb-6 font-sans">{bhashascan.tagline}</p>
                 </div>
-
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelectProduct(bhashascan);
-                    }}
-                    className="px-4 py-2 bg-[#0051d5] text-white text-xs font-mono font-bold uppercase rounded-sm cursor-pointer hover:bg-[#003ea8]"
-                  >
-                    View Specs & Gallery
-                  </button>
-                  {bhashascan.liveUrl && (
-                    <a
-                      href={bhashascan.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-xs font-mono font-bold text-[#0051d5] hover:underline flex items-center gap-1 uppercase"
-                    >
-                      <span>Launch Streamlit</span>
-                      <span className="material-symbols-outlined text-xs">open_in_new</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </TiltCard>
-          </motion.div>
-
+              </TiltCard>
+            </motion.div>
+          ))}
         </div>
 
       </div>

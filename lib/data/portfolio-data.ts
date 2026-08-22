@@ -11,10 +11,11 @@ export interface SystemProduct {
   techStack: string[];
   metrics: { label: string; value: string }[];
   heroImage: string;
-  galleryImages: { url: string; caption: string; category?: "web" | "mobile" | "methodology" | "hardware" }[];
+  galleryImages: { url: string; caption: string; category?: "web" | "mobile" | "methodology" | "hardware" | "document" }[];
   liveUrl?: string;
   githubUrl?: string;
   patentNo?: string;
+  appreciationLetterUrl?: string;
   status: string;
   gradient: string;
 }
@@ -189,6 +190,101 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     gradient: "from-blue-600 to-cyan-500"
   },
   {
+    id: "fateh-erp",
+    name: "Fateh Excellence ERP",
+    subtitle: "Local-First Institutional Management Suite for Preschool & Daycare Operations",
+    category: "Full-Stack Enterprise Systems",
+    tagline: "Full-stack ERP replacing paper registers with an executive dashboard, quarterly fee engine, attendance-linked payroll, and a native A4 print system for receipts & payslips.",
+    problem: "Preschool and daycare administrators were tracking admissions, quarterly fees, staff payroll, and daily attendance across scattered paper registers and spreadsheets — with no audit trail, no fast dues lookup for walk-in parents, and no way to produce official printable receipts or payslips.",
+    solution: "A full-featured local-first institutional ERP covering the complete operational loop: an executive command dashboard, a Student Information System with document archive, an admissions Kanban pipeline, a quarterly fee engine with walk-in collection, subject-wise evaluation reporting, attendance-linked staff payroll, and a native A4 print system for receipts, payslips and ID cards — with soft-delete archives and audit trail logging for fail-safe data governance.",
+    heroImage: "/assets/fateh-erp/dashboard.png",
+    galleryImages: [
+      { url: "/assets/fateh-erp/dashboard.png", caption: "Executive Command Dashboard", category: "web" },
+      { url: "/assets/fateh-erp/student directory.png", caption: "Student Directory & Enrollment List", category: "web" },
+      { url: "/assets/fateh-erp/fees.png", caption: "Annual Fee Schedule & Defaulter Tracking", category: "web" },
+      { url: "/assets/fateh-erp/fees ledger.png", caption: "Individual Student Fee Ledger", category: "web" },
+      { url: "/assets/fateh-erp/fee payment.png", caption: "Walk-In Fee Collection Modal", category: "web" },
+      { url: "/assets/fateh-erp/fee recipt.png", caption: "Printable A4 Fee Receipt", category: "web" },
+      { url: "/assets/fateh-erp/payroll.png", caption: "Monthly Staff Payroll Table", category: "web" },
+      { url: "/assets/fateh-erp/payslip.png", caption: "Printable A4 Salary Slip", category: "web" },
+      { url: "/assets/fateh-erp/letter-of-appreciation.jpg", caption: "Letter of Appreciation — Fateh Excellence Preschool & Daycare", category: "document" }
+    ],
+    architectureNodes: [
+      "1. Executive Command Dashboard (Live metrics: enrollment, staff, attendance, fees, dues)",
+      "2. Student Information System (SIS) — profiles, documents, parent/guardian records",
+      "3. Admissions Pipeline (Kanban: Inquiry → Under Review → Approved → Enrolled)",
+      "4. Evaluation & Curriculum Engine (Subject-wise grading, teacher observations)",
+      "5. Fee Engine (Quarterly installments, walk-in collection, oldest-first allocation)",
+      "6. A4 Print Layer (Isolated iframe printing via CSS Paged Media — receipts, payslips, ID cards)",
+      "7. Staff Payroll Engine (Attendance-linked Loss-of-Pay, proxy duty pay)",
+      "8. Archives & Soft-Delete Recovery (Audit trail logging, 1-click restore)"
+    ],
+    keyFeatures: [
+      "Local-first architecture: sub-millisecond UI response with zero cloud dependency — all financial ledgers and student records stay on institution infrastructure",
+      "Quarterly 4-installment fee engine with oldest-first payment allocation and 1-click 'Pay Total Pending' / 'Pay Overdue' quick actions",
+      "Native A4 print engine using an isolated iframe + CSS Paged Media — no third-party PDF library overhead for receipts, payslips & ID cards",
+      "Attendance-linked payroll: automatic Loss-of-Pay deductions and proxy/substitution duty compensation on a standard 30-day divisor",
+      "Soft-delete Archives module with audit trail logging and 1-click record recovery for students and staff",
+      "Subject-wise grade engine for Evaluation 1 & 2 milestone reporting with configurable curriculum subjects"
+    ],
+    techStack: ["TanStack Start", "React 19", "TanStack Router", "TanStack Query", "Tailwind CSS v4", "Radix UI", "Recharts", "Lucide React", "Sonner", "CSS Paged Media"],
+    metrics: [
+      { label: "Data Residency", value: "100% Local-First" },
+      { label: "Fee Installments", value: "Quarterly x4" },
+      { label: "Payroll History", value: "Apr 2026 → Present" },
+      { label: "Document Types Archived", value: "4+ (Birth Cert, Aadhaar, Vaccination, Forms)" }
+    ],
+    appreciationLetterUrl: "/assets/fateh-erp/letter-of-appreciation.jpg",
+    status: "Deployed Institutional System",
+    gradient: "from-emerald-600 to-teal-500"
+  },
+  {
+    id: "fateh-web-portal",
+    name: "Fateh Excellence Web Portal",
+    subtitle: "Official Website & Admin CMS — TanStack Start, Supabase, Tailwind v4",
+    category: "Full-Stack Web Platforms",
+    tagline: "Public-facing SSR website with a custom brand design system and a protected admin CMS for real-time content, curriculum & gallery updates.",
+    problem: "The preschool had no dedicated online presence for parents to discover programs, admissions info or campus photos, and any content change required a developer — there was no way for staff to update the site themselves.",
+    solution: "A server-rendered marketing site built on TanStack Start + React 19 with sub-350ms first contentful paint, a custom warm brand design system, masonry photo galleries with touch lightboxes, a WhatsApp inquiry widget, and a protected Admin CMS (JWT + Bcrypt auth) letting staff update hero slides, program curricula, campus videos and galleries without touching code — backed by Supabase Postgres and deployed on Vercel's global CDN with full SEO schema markup.",
+    heroImage: "/assets/fateh-web-portal/hero.png",
+    galleryImages: [
+      { url: "/assets/fateh-web-portal/hero.png", caption: "Homepage Hero Carousel", category: "web" },
+      { url: "/assets/fateh-web-portal/about.png", caption: "Our Story & Philosophy Section", category: "web" },
+      { url: "/assets/fateh-web-portal/programs.png", caption: "Academic Programs & Curriculum Section", category: "web" },
+      { url: "/assets/fateh-web-portal/activities.png", caption: "Activities That Inspire Gallery", category: "web" },
+      { url: "/assets/fateh-web-portal/gallery.png", caption: "Masonry Photo Gallery with Lightbox", category: "web" },
+      { url: "/assets/fateh-web-portal/admin.png", caption: "Protected Admin CMS Dashboard", category: "web" },
+      { url: "/assets/fateh-web-portal/letter-of-appreciation.jpeg", caption: "Letter of Appreciation — Fateh Excellence Preschool & Daycare", category: "document" }
+    ],
+    architectureNodes: [
+      "1. Public Site (React 19 + TanStack Start SSR) — hero carousel, programs, gallery, contact",
+      "2. Admin CMS Dashboard (JWT + Bcrypt Auth) — hero slides, curriculum & gallery content editor",
+      "3. Supabase (PostgreSQL + CDN Storage) — dynamic content & media asset store",
+      "4. Local Persistence (SQLite + Drizzle ORM) — offline dev & edge data engine",
+      "5. Vite 8 + Nitro Engine — build, bundling & serverless edge runtime",
+      "6. SEO Layer — JSON-LD schema.org/Preschool, OpenGraph, sitemap.xml",
+      "7. Vercel Edge Deployment — global CDN with automatic SSL"
+    ],
+    keyFeatures: [
+      "Server-Side Rendering with instant client hydration — under 350ms First Contentful Paint",
+      "Custom warm brand design system (#830001 crimson, #F8AB04 saffron gold) with hero crossfade animations and organic wave dividers",
+      "Mobile-first responsive layout with masonry photo galleries and touch-enabled lightboxes",
+      "Protected Admin CMS for real-time updates to hero slides, program curricula, campus tour videos & galleries",
+      "Scroll-triggered floating WhatsApp widget for direct parent inquiries",
+      "Full SEO layer: JSON-LD schema.org/Preschool, OpenGraph meta tags, robots.txt & automated sitemap.xml"
+    ],
+    techStack: ["React 19", "TanStack Start", "TanStack Router", "TanStack Query", "Tailwind CSS v4", "Radix UI", "Supabase", "PostgreSQL", "SQLite", "Drizzle ORM", "Vite 8", "Nitro", "Jose (JWT)", "Bcrypt", "Vercel"],
+    metrics: [
+      { label: "First Contentful Paint", value: "< 350ms" },
+      { label: "Academic Programs Listed", value: "5 (Playgroup → Daycare)" },
+      { label: "SEO Schema", value: "schema.org/Preschool" },
+      { label: "Deployment", value: "Vercel Global CDN" }
+    ],
+    appreciationLetterUrl: "/assets/fateh-web-portal/letter-of-appreciation.jpeg",
+    status: "Production Live",
+    gradient: "from-rose-700 to-amber-500"
+  },
+  {
     id: "granthalaya",
     name: "Granthalaya",
     subtitle: "Sikh Historical Literature Digital Library & Scholar Workbench",
@@ -238,42 +334,6 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
     githubUrl: "https://github.com/Gursevaksingh84/Granthalaya-Web",
     status: "Production Live & Dual-Repo Ecosystem",
     gradient: "from-sky-600 to-teal-500"
-  },
-  {
-    id: "bhashascan",
-    name: "BhashaScan",
-    subtitle: "Multi-Language Indian Document OCR & Translation Pipeline",
-    category: "Computer Vision & OCR",
-    tagline: "Document processing engine covering 9 Indian languages with adaptive preprocessing for degraded scans.",
-    problem: "Official forms, archives, and regional documents in India suffer from optical noise, low resolution, and non-standard fonts, causing standard OCR tools to fail.",
-    solution: "An end-to-end computer vision and OCR pipeline combining OpenCV adaptive binarization, skew correction, and Tesseract script recognition tuned across 9 Indian languages.",
-    heroImage: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
-    galleryImages: [
-      { url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80", caption: "BhashaScan Document OCR Pipeline", category: "web" }
-    ],
-    architectureNodes: [
-      "OpenCV Image Denoising & Skew Correction",
-      "Adaptive Local Thresholding Engine",
-      "Tesseract Script Recognition (9 Languages)",
-      "Neural Translation & Text Normalization",
-      "Streamlit Document Export Dashboard"
-    ],
-    keyFeatures: [
-      "Supports 9 major Indian regional languages and scripts",
-      "Adaptive OpenCV image preprocessing gaining ~40% accuracy on noisy scans",
-      "Multi-page PDF batch upload and automated script detection",
-      "Clean translation export in formatted plain text or CSV"
-    ],
-    techStack: ["Python", "OpenCV", "Tesseract", "Streamlit", "NumPy"],
-    metrics: [
-      { label: "OCR Accuracy Gain", value: "~40%" },
-      { label: "Supported Indian Languages", value: "9 Scripts" },
-      { label: "Batch File Processing", value: "Multi-page PDF" }
-    ],
-    liveUrl: "https://local-language-ocr-hj32suqla2zf7nanhsncvl.streamlit.app",
-    githubUrl: "https://github.com/Gursevaksingh84/local-language-ocr",
-    status: "Production Streamlit Live",
-    gradient: "from-cyan-600 to-blue-600"
   },
   {
     id: "rotary-roaster",
@@ -337,17 +397,17 @@ export const SOLUTIONS_DOMAINS: SolutionDomain[] = [
     highlightProduct: "Kumbh Bandhu"
   },
   {
-    id: "cv-ocr",
-    title: "Computer Vision & Script Processing",
-    iconName: "ScanText",
-    description: "Developing custom computer vision pipelines tailored for low-quality image enhancement, document deskewing, and multi-script regional OCR recognition.",
+    id: "institutional-erp",
+    title: "Institutional ERP & Document Systems",
+    iconName: "ClipboardList",
+    description: "Building local-first institutional management suites — fee engines, payroll automation, and native A4 print systems — that keep sensitive financial and student data fully on-premise.",
     capabilities: [
-      "OpenCV adaptive thresholding & noise filtering",
-      "Tesseract OCR tuning across 9 Indian languages",
-      "Multi-page PDF batch processing & text normalization",
-      "Sub-second document script identification"
+      "Local-first architecture with zero external data sharing for financial & student records",
+      "Quarterly fee engines with oldest-first payment allocation & walk-in collection",
+      "Attendance-linked payroll automation with Loss-of-Pay calculations",
+      "Native A4 print systems via CSS Paged Media — zero third-party PDF overhead"
     ],
-    highlightProduct: "BhashaScan"
+    highlightProduct: "Fateh Excellence ERP"
   },
   {
     id: "fullstack-cloud",
@@ -415,6 +475,12 @@ export const TEACHING_DATA: TeachingExperience[] = [
 ];
 
 export const WORK_TIMELINE = [
+  {
+    year: "2026",
+    title: "Fateh Excellence Preschool ERP & Web Portal",
+    role: "Full-Stack Developer",
+    description: "Built a local-first institutional ERP (admissions, quarterly fees, attendance-linked payroll, A4 print system) and a companion public website + admin CMS for Fateh Excellence Preschool & Daycare, on TanStack Start, Supabase and Tailwind CSS v4."
+  },
   {
     year: "2026",
     title: "Patent Publication & Kumbh Bandhu Breakthrough",
