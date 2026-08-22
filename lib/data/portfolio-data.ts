@@ -207,7 +207,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
       { url: "/assets/fateh-erp/fee recipt.png", caption: "Printable A4 Fee Receipt", category: "web" },
       { url: "/assets/fateh-erp/payroll.png", caption: "Monthly Staff Payroll Table", category: "web" },
       { url: "/assets/fateh-erp/payslip.png", caption: "Printable A4 Salary Slip", category: "web" },
-      { url: "/assets/fateh-erp/letter-of-appreciation.jpg", caption: "Letter of Appreciation — Fateh Excellence Preschool & Daycare", category: "document" }
+      { url: "/assets/fateh-erp/letter-of-appreciation.jpeg", caption: "Letter of Appreciation — Fateh Excellence Preschool & Daycare", category: "document" }
     ],
     architectureNodes: [
       "1. Executive Command Dashboard (Live metrics: enrollment, staff, attendance, fees, dues)",
@@ -234,7 +234,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
       { label: "Payroll History", value: "Apr 2026 → Present" },
       { label: "Document Types Archived", value: "4+ (Birth Cert, Aadhaar, Vaccination, Forms)" }
     ],
-    appreciationLetterUrl: "/assets/fateh-erp/letter-of-appreciation.jpg",
+    appreciationLetterUrl: "/assets/fateh-erp/letter-of-appreciation.jpeg",
     status: "Deployed Institutional System",
     gradient: "from-emerald-600 to-teal-500"
   },
@@ -281,6 +281,7 @@ export const SYSTEM_PRODUCTS: SystemProduct[] = [
       { label: "Deployment", value: "Vercel Global CDN" }
     ],
     appreciationLetterUrl: "/assets/fateh-web-portal/letter-of-appreciation.jpeg",
+    liveUrl: "https://www.fatehexcellenceschool.in/",
     status: "Production Live",
     gradient: "from-rose-700 to-amber-500"
   },
